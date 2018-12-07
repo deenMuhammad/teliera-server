@@ -56,11 +56,6 @@ type Token {
 
 # node-courses
 
-input EmailPassword {
-  email: String
-  password: String
-}
-
 type Course {
   _id: String
   title: String

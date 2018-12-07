@@ -1,0 +1,20 @@
+version: "3.5"
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      servicenet:
+        aliases:
+          - graphql.internal.getbouncecode.com
+          - graphql.node.internal.getbouncecode.com
+    ports:
+      - 3000:3000
+
+
+networks:
+  servicenet:
+    name: bouncecode-servicenet

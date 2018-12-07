@@ -10,6 +10,12 @@ module.exports = {
     section
   },
   Mutation: {
-    enroll
+    enroll,
+    // startContainer,
+    // stopContainer,
+    // testContainer,
+    // runExec,
+    // killExec,
+    // waitExec
   }
 }

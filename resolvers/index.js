@@ -24,6 +24,15 @@ const {
   tokenPassword
 } = require('./Mutation/node-accounts');
 
+const {
+  startContainer,
+  stopContainer,
+  testContainer,
+  runExec,
+  killExec,
+  waitExec
+} = require('./Mutation/node-instance');
+
 module.exports = {
   Query: {
     // node-courses

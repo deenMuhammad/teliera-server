@@ -11,11 +11,11 @@ module.exports = {
   },
   Mutation: {
     enroll,
-    // startContainer,
-    // stopContainer,
-    // testContainer,
-    // runExec,
-    // killExec,
-    // waitExec
+    startContainer,
+    stopContainer,
+    testContainer,
+    runExec,
+    killExec,
+    waitExec
   }
 }

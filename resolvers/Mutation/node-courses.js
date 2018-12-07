@@ -6,4 +6,6 @@ const enroll = (obj, { courseId }, { headers }) => {
         .then(json => json.data);
 }
 
-module.exports = { enroll }
+module.exports = {
+  enroll
+}

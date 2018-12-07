@@ -10,7 +10,7 @@ type Query {
 
 type Mutation {
   # node-accounts
-  signup(email: String, password: String): Token
+  signup(email: String, password: String): Boolean
   resendEmail(email: String): Boolean
   emailVerify(email: String, code: String): Boolean
   tokenPassword(email: String, password: String): Token
@@ -25,9 +25,9 @@ type Mutation {
 
   # node-instance
   startContainer(image: String, env: String, git: String): Container
-  stopContainer(containerId: String): Container
+  stopContainer(containerId: String): Boolean
   commitContainer(containerId: String): Boolean
-  testContainer(workgit: String, testgit: String, image: String, cmd: String, env: String): Container
+  testContainer(containerId: String, workgit: String, testgit: String, image: String, cmd: String, env: String): Container
   runExec(containerId: String, cmd: String): Exec
   killExec(execId: String): Boolean
   waitExec(containerId: String, cmd: String, timeout: Int): Exec

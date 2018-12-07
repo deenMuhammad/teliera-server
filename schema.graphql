@@ -1,11 +1,64 @@
 type Query {
+  # node-accounts
+  user: User
+
+  # node-courses
   courses(enrolled: Boolean): [Course]
-  course(id: String): Course
-  section(id: String): Section
+  course(courseId: String): Course
+  section(sectionId: String): Section
 }
 
 type Mutation {
-  enroll(id: String): Course
+  # node-accounts
+  signup(email: String, password: String): Token
+  resendEmail(email: String): Boolean
+  emailVerify(email: String, code: String): Boolean
+  tokenPassword(email: String, password: String): Token
+  tokenGithub(code: String): Token
+  tokenFacebook(accessToken: String): Token
+  tokenGoogle(accessToken: String): Token
+  refreshToken(token: String): Token
+  changePassword(currentPassword: String, newPassword: String): Boolean
+
+  # node-courses
+  enroll(courseId: String): Course
+
+  # node-instance
+  startContainer(image: String, env: String, git: String): Container
+  stopContainer(containerId: String): Container
+  commitContainer(containerId: String): Boolean
+  testContainer(workgit: String, testgit: String, image: String, cmd: String, env: String): Container
+  runExec(containerId: String, cmd: String): Exec
+  killExec(execId: String): Boolean
+  waitExec(containerId: String, cmd: String, timeout: Int): Exec
+}
+
+
+# node-accounts
+
+type User {
+  id: String
+  email: String
+  emailVerified: Boolean
+  password: Boolean
+  facebookId: Boolean
+  googleId: Boolean
+  githubId: Boolean
+}
+
+type Token {
+  access_token: String
+  token_type: String
+  expires_in: Int
+  refresh_token: String
+}
+
+
+# node-courses
+
+input EmailPassword {
+  email: String
+  password: String
 }
 
 type Course {
@@ -52,4 +105,63 @@ type Article {
   _id: String
   title: String
   article: String
+}
+
+
+# node-instance
+
+type Container {
+  Id: String
+  Created: String
+  Path: String
+  Args: [String]
+  State: DockerState
+  Image: Stirng
+  Name: String
+  RestartCount: Int
+  Platform: String
+  Config: DockerConfig
+}
+
+type Exec {
+  Id: String
+  Created: String
+  Path: String
+  Args: [String]
+  State: DockerState
+  Image: String
+  Name: String
+  RestartCount: Int
+  Driver: String
+  Platform: String
+  Config: DockerConfig
+}
+
+type DockerState {
+  Status: String
+  Running: Boolean
+  Paused: Boolean
+  Restarting: Boolean
+  OOMKilled: Boolean
+  Dead: Boolean
+  ExitCode: Int
+  Error: String
+  StartedAt: String
+  FinishedAt: String
+}
+
+type DockerConfig {
+  Hostname: String
+  Domainname: String
+  User: String
+  AttachStdin: Boolean
+  AttachStdout: Boolean
+  AttachStderr: Boolean
+  Tty: Boolean
+  OpenStdin: Boolean
+  StdinOnce: Boolean
+  Env: [String]
+  Cmd: [String]
+  Image: String
+  WorkingDir: String
 }

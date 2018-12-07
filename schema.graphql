@@ -1,0 +1,55 @@
+type Query {
+  courses(enrolled: Boolean): [Course]
+  course(id: String): Course
+  section(id: String): Section
+}
+
+type Mutation {
+  enroll(id: String): Course
+}
+
+type Course {
+  _id: String
+  title: String
+  shortDesc: String
+  longDesc: String
+  showcase: [Showcase]
+  chapter: [Chapter]
+}
+
+type Showcase {
+  _id: String
+  title: String
+  image: String
+}
+
+type Chapter {
+  _id: String,
+  title: String,
+  section: Section
+}
+
+type Section {
+  _id: String
+  title: String
+  content: Content
+}
+
+type Content {
+  _id: String
+  title: String
+  image: String
+  exec: String
+  start: String
+  test: String
+  docs: [Article]
+  workgit: String
+  testgit: String
+  createAt: Int
+}
+
+type Article {
+  _id: String
+  title: String
+  article: String
+}

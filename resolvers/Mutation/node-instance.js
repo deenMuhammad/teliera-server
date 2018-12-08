@@ -1,7 +1,7 @@
 const fetch = require('node-fetch')
 
 const startContainer = (obj, { image, env, git }, { headers }) => {
-    return fetch(`http://instance.node.internal.getbouncecode.com:3000/`, {
+    return fetch(`http://instance.node.internal.getbouncecode.com:3000/container`, {
         method: 'POST',
         headers
     })
@@ -9,7 +9,7 @@ const startContainer = (obj, { image, env, git }, { headers }) => {
 }
 
 const stopContainer = (obj, { containerId }, { headers }) => {
-    return fetch(`http://instance.node.internal.getbouncecode.com:3000/${containerId}`, {
+    return fetch(`http://instance.node.internal.getbouncecode.com:3000/container/${containerId}`, {
         method: 'DELETE',
         headers
     })
@@ -18,7 +18,7 @@ const stopContainer = (obj, { containerId }, { headers }) => {
 }
 
 const commitContainer = (obj, { containerId }, { headers }) => {
-    return fetch(`http://instance.node.internal.getbouncecode.com:3000/${containerId}/commit`, {
+    return fetch(`http://instance.node.internal.getbouncecode.com:3000/container/${containerId}/commit`, {
         method: 'POST',
         headers
     })
@@ -27,7 +27,7 @@ const commitContainer = (obj, { containerId }, { headers }) => {
 }
 
 const testContainer = (obj, { containerId, workgit, testgit, image, cmd, env }, { headers }) => {
-    return fetch(`http://instance.node.internal.getbouncecode.com:3000/${containerId}/test`, {
+    return fetch(`http://instance.node.internal.getbouncecode.com:3000/container/${containerId}/test`, {
         method: 'POST',
         headers,
         body: {
@@ -39,11 +39,11 @@ const testContainer = (obj, { containerId, workgit, testgit, image, cmd, env }, 
         }
     })
     .then(data => data.json())
-    .then(json => json.token);
+    .then(json => ({...json.insp, Output: json.data}));
 }
 
 const runExec = (obj, { containerId, cmd }, { headers }) => {
-    return fetch(`http://instance.node.internal.getbouncecode.com:3000/${containerId}/exec`, {
+    return fetch(`http://instance.node.internal.getbouncecode.com:3000/container/${containerId}/exec`, {
         method: 'POST',
         headers,
         body: {
@@ -53,33 +53,26 @@ const runExec = (obj, { containerId, cmd }, { headers }) => {
     .then(data => data.json());
 }
 
-// const killExec = (obj, { execId }, { headers }) => {
-//     return fetch(`http://instance.node.internal.getbouncecode.com:3000/token`, {
-//         method: 'POST',
-//         headers,
-//         body: {
-//             grant_type: 'password',
-//             email,
-//             password
-//         }
-//     })
-//     .then(data => data.json())
-//     .then(json => json.token);
-// }
+const waitExec = (obj, { containerId, cmd }, { headers }) => {
+    return fetch(`http://instance.node.internal.getbouncecode.com:3000/container/${containerId}/exec_wait`, {
+        method: 'POST',
+        headers,
+        body: {
+            cmd
+        }
+    })
+    .then(data => data.json())
+    .then(json => ({...json.insp, Output: json.data}));
+}
 
-// const waitExec = (obj, { containerId, cmd, timeout }, { headers }) => {
-//     return fetch(`http://instance.node.internal.getbouncecode.com:3000/token`, {
-//         method: 'POST',
-//         headers,
-//         body: {
-//             grant_type: 'password',
-//             email,
-//             password
-//         }
-//     })
-//     .then(data => data.json())
-//     .then(json => json.token);
-// }
+const killExec = (obj, { execId }, { headers }) => {
+    return fetch(`http://instance.node.internal.getbouncecode.com:3000/exec/${execId}`, {
+        method: 'DELETE',
+        headers
+    })
+    .then(data => data.json())
+    .then(json => !!json.success);
+}
 
 module.exports = {
     startContainer,

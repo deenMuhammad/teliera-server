@@ -27,10 +27,10 @@ type Mutation {
   startContainer(image: String, env: String, git: String): Container
   stopContainer(containerId: String): Boolean
   commitContainer(containerId: String): Boolean
-  testContainer(containerId: String, workgit: String, testgit: String, image: String, cmd: String, env: String): Container
+  testContainer(containerId: String, workgit: String, testgit: String, image: String, cmd: String, env: String): Exec
   runExec(containerId: String, cmd: String): Exec
   killExec(execId: String): Boolean
-  waitExec(containerId: String, cmd: String, timeout: Int): Exec
+  waitExec(containerId: String, cmd: String): Exec
 }
 
 
@@ -130,6 +130,7 @@ type Exec {
   Driver: String
   Platform: String
   Config: DockerConfig
+  Output: String
 }
 
 type DockerState {

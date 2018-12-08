@@ -21,7 +21,7 @@ type Mutation {
   changePassword(currentPassword: String, newPassword: String): Boolean
 
   # node-courses
-  enroll(courseId: String): Course
+  enroll(courseId: String): Enroll
 
   # node-instance
   startContainer(image: String, env: String, git: String): Container
@@ -72,8 +72,8 @@ type Showcase {
 }
 
 type Chapter {
-  _id: String,
-  title: String,
+  _id: String
+  title: String
   section: Section
 }
 
@@ -100,6 +100,12 @@ type Article {
   _id: String
   title: String
   article: String
+}
+
+type Enroll {
+  _id: String,
+  user: String,
+  course: String
 }
 
 

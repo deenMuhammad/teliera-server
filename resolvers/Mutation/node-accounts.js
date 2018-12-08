@@ -4,10 +4,10 @@ const changePassword = (obj, { currentPassword, newPassword }, { headers }) => {
     return fetch(`http://accounts.node.internal.getbouncecode.com:3000/user/change_password`, {
         method: 'PUT',
         headers,
-        body: {
+        body: JSON.stringify({
             current_password: currentPassword,
             password: newPassword
-        }
+        })
     })
     .then(data => data.json())
     .then(json => !!json.success);
@@ -23,10 +23,10 @@ const refreshToken = (obj, { refreshToken }, { headers }) => {
   return fetch(`http://accounts.node.internal.getbouncecode.com:3000/token`, {
       method: 'POST',
       headers,
-      body: {
+      body: JSON.stringify({
           grant_type: 'refresh_token',
           refresh_token: refreshToken
-      }
+      })
   })
   .then(data => data.json())
   .then(json => json.token);
@@ -36,9 +36,9 @@ const resendEmail = (obj, { email }, { headers }) => {
   return fetch(`http://accounts.node.internal.getbouncecode.com:3000/resend_email`, {
       method: 'POST',
       headers,
-      body: {
+      body: JSON.stringify({
           email: email
-      }
+      })
   })
   .then(data => data.json())
   .then(json => !!json.success);
@@ -48,10 +48,10 @@ const signup = (obj, { email, password }, { headers }) => {
   return fetch(`http://accounts.node.internal.getbouncecode.com:3000/signup`, {
       method: 'POST',
       headers,
-      body: {
+      body: JSON.stringify({
           email,
           password
-      }
+      })
   })
   .then(data => data.json())
   .then(json => !!json.success);
@@ -88,11 +88,11 @@ const tokenPassword = (obj, { email, password }, { headers }) => {
   return fetch(`http://accounts.node.internal.getbouncecode.com:3000/token`, {
       method: 'POST',
       headers,
-      body: {
+      body: JSON.stringify({
           grant_type: 'password',
           email,
           password
-      }
+      })
   })
   .then(data => data.json())
   .then(json => json.token);

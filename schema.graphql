@@ -111,7 +111,7 @@ type Container {
   Path: String
   Args: [String]
   State: DockerState
-  Image: Stirng
+  Image: String
   Name: String
   RestartCount: Int
   Platform: String

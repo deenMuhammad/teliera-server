@@ -9,7 +9,8 @@ const server = new ApolloServer({
     return {
       req,
       headers: {
-        'X-Account-Id': req.headers['x-account-id'],
+        'User-Agent': req.headers['user-agent'],
+        'X-Accounts-Id': req.headers['x-accounts-id'],
         'Content-Type': 'application/json'
       }
     }

@@ -24,6 +24,7 @@ type Mutation {
   enroll(courseId: String): Enroll
 
   # node-instance
+  # WARNING: it will be updated
   startContainer(image: String, env: String, git: String): Container
   stopContainer(containerId: String): Boolean
   commitContainer(containerId: String): Boolean

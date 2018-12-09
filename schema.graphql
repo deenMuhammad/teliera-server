@@ -93,7 +93,8 @@ type Content {
   docs: [Article]
   workgit: String
   testgit: String
-  createAt: Int
+  createAt: Int,
+  isComplete: Boolean
 }
 
 type Article {

@@ -74,7 +74,7 @@ type Showcase {
 type Chapter {
   _id: String
   title: String
-  section: Section
+  section: [Section]
 }
 
 type Section {
@@ -93,7 +93,6 @@ type Content {
   docs: [Article]
   workgit: String
   testgit: String
-  createAt: Int,
   isComplete: Boolean
 }
 

@@ -11,6 +11,7 @@ const server = new ApolloServer({
       headers: {
         'User-Agent': req.headers['user-agent'],
         'X-Accounts-Id': req.headers['x-accounts-id'],
+        'Cookie': req.headers['cookie'],
         'Content-Type': 'application/json'
       }
     }

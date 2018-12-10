@@ -6,6 +6,21 @@ type Query {
   courses(enrolled: Boolean): [Course]
   course(courseId: String): Course
   section(sectionId: String): Section
+
+  # node-gitserver
+  repoUri(repoId: String): String
+  repoUsers(repoId: String): [repoUser]
+
+  # node-instance
+  # ... TODO
+  # images: [Image]
+
+  # node-apps
+  # ... TODO
+  # allApps: [App]
+  # myApps: [App]
+  # favorateApps: [App]
+  # app(appId: String): App
 }
 
 type Mutation {
@@ -22,16 +37,33 @@ type Mutation {
 
   # node-courses
   enroll(courseId: String): Enroll
+  startContentWorkbench(contentId: String, startContainer: Boolean): Workbench
+  testContentWorkbench(contentId: String): Boolean
+  resetContentWorkbench(contentId: String): Workbench
+  stopContentWorkbenchContainer(contentId: String): Boolean
+  resetContentWorkbenchContainer(contentId: String): Container
 
   # node-instance
-  # WARNING: it will be updated
-  startContainer(image: String, env: String, git: String): Container
-  stopContainer(containerId: String): Boolean
-  commitContainer(containerId: String): Boolean
-  testContainer(containerId: String, workgit: String, testgit: String, image: String, cmd: String, env: String): Exec
+  commitContainerSource(containerId: String, force: Boolean): Boolean
+  pullContainerSource(containerId: String, force: Boolean): Boolean
   runExec(containerId: String, cmd: String): Exec
   killExec(execId: String): Boolean
   waitExec(containerId: String, cmd: String): Exec
+
+  # node-gitserver
+  addUserPermission(repoId: String, email: String, permission: Int): repoUser
+  removeUserPermission(repoId: String, email: String): Boolean
+  # saveFile(repoId: String, path: String, data: String, commitMessage: String): Boolean
+
+  # node-apps
+  # ... TODO
+  # createApp(imageId: String): App
+  # updateApp(appId: String, init: String, run: String, open: [String], env: String, editor: String): App
+  # runApp(appId: String): Boolean
+  # killApp(appId: String): Boolean
+  # startAppWorkbench(appId: String): Workbench
+  # addFavorateApp(appId: String): Boolean
+  # removeFavorateApp(appId: String): Boolean
 }
 
 
@@ -104,13 +136,19 @@ type Article {
 }
 
 type Enroll {
-  _id: String,
-  user: String,
+  _id: String
+  user: String
   course: String
 }
 
 
 # node-instance
+
+type Workbench {
+  socketId: String
+  gitRepo: String
+  container: Container
+}
 
 type Container {
   Id: String

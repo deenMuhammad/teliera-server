@@ -61,7 +61,7 @@ type Mutation {
   # updateApp(appId: String, init: String, run: String, open: [String], env: String, editor: String): App
   # runApp(appId: String): Boolean
   # killApp(appId: String): Boolean
-  # startAppWorkbench(appId: String): Workbench
+  # startAppContainer(appId: String): Container
   # addFavorateApp(appId: String): Boolean
   # removeFavorateApp(appId: String): Boolean
 }

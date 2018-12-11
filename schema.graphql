@@ -9,7 +9,7 @@ type Query {
 
   # node-gitserver
   repoUri(repoId: String): String
-  repoUsers(repoId: String): [repoUser]
+  repoUsers(repoId: String): [RepoUser]
 
   # node-instance
   # ... TODO
@@ -51,8 +51,9 @@ type Mutation {
   waitExec(containerId: String, cmd: String): Exec
 
   # node-gitserver
-  addUserPermission(repoId: String, email: String, permission: Int): repoUser
-  removeUserPermission(repoId: String, email: String): Boolean
+  addUserPermission(repoId: String, emailOrTokenId: String, permission: Int): RepoUser
+  updateUserPermission(repoId: String, username: String, permission: Int): RepoUser
+  removeUserPermission(repoId: String, username: String): Boolean
   # saveFile(repoId: String, path: String, data: String, commitMessage: String): Boolean
 
   # node-apps
@@ -90,7 +91,7 @@ type Token {
 # node-courses
 
 type Course {
-  _id: String
+  _id: String # courseId
   title: String
   shortDesc: String
   longDesc: String
@@ -111,13 +112,13 @@ type Chapter {
 }
 
 type Section {
-  _id: String
+  _id: String # sectionId
   title: String
   content: Content
 }
 
 type Content {
-  _id: String
+  _id: String # contentId
   title: String
   image: String
   exec: String
@@ -142,16 +143,27 @@ type Enroll {
 }
 
 
+# node-gitserver
+
+type RepoUser {
+  _id: String # memberId
+  repoId: String
+  userId: String # username, tokenId
+  tokenKey: String
+  permission: Int # permission: 1 => Owner, 2 => Maintainer, 3 => Developer, 4 => Viewer
+}
+
+
 # node-instance
 
 type Workbench {
   socketId: String
-  gitRepo: String
+  repoId: String
   container: Container
 }
 
 type Container {
-  Id: String
+  Id: String # containerId
   Created: String
   Path: String
   Args: [String]
@@ -164,7 +176,7 @@ type Container {
 }
 
 type Exec {
-  Id: String
+  Id: String # execId
   Created: String
   Path: String
   Args: [String]

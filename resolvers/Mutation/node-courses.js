@@ -48,8 +48,9 @@ const testContentWorkbench = async (obj, { contentId, repoId }, { headers }) => 
   return exec;
 }
 
+// TODO: repoId
 const resetContentWorkbench = async (obj, { contentId }, { headers }) => {
-  const success = await fetch(`http://instance.node.internal.getbouncecode.com:3000/content/${contentId}/git/reset`, {
+  const success = await fetch(`http://instance.node.internal.getbouncecode.com:3000/content/${contentId}/git-reset`, {
     method: 'GET',
     headers
   })

@@ -30,9 +30,8 @@ const {
 } = require('./Mutation/node-accounts');
 
 const {
-  startContainer,
-  stopContainer,
-  testContainer,
+  commitContainerSource,
+  pullContainerSource,
   runExec,
   killExec,
   waitExec

@@ -38,14 +38,14 @@ type Mutation {
   # node-courses
   enroll(courseId: String): Enroll
   startContentWorkbench(contentId: String, startContainer: Boolean): Workbench
-  testContentWorkbench(contentId: String): Boolean
+  testContentWorkbench(contentId: String, repoId: String): Boolean
   resetContentWorkbench(contentId: String): Workbench
-  stopContentWorkbenchContainer(contentId: String): Boolean
-  resetContentWorkbenchContainer(contentId: String): Container
+  resetContentWorkbenchContainer(contentId: String, containerId: String): Container
 
   # node-instance
   commitContainerSource(containerId: String, force: Boolean): Boolean
   pullContainerSource(containerId: String, force: Boolean): Boolean
+  stopContainer(containerId: String): Boolean
   runExec(containerId: String, cmd: String): Exec
   killExec(execId: String): Boolean
   waitExec(containerId: String, cmd: String): Exec

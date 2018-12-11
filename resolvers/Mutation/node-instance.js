@@ -18,6 +18,15 @@ const pullContainerSource = (obj, { containerId }, { headers }) => {
   .then(json => !!json.success);
 }
 
+const stopContainer = (obj, { containerId }, { headers }) => {
+  return fetch(`http://instance.node.internal.getbouncecode.com:3000/container/${containerId}`, {
+    method: 'DELETE',
+    headers
+  })
+  .then(data => data.json())
+  .then(json => !!json.success);
+}
+
 const runExec = (obj, { containerId, cmd }, { headers }) => {
   return fetch(`http://instance.node.internal.getbouncecode.com:3000/container/${containerId}/exec`, {
     method: 'POST',
@@ -53,6 +62,7 @@ const killExec = (obj, { execId }, { headers }) => {
 module.exports = {
   commitContainerSource,
   pullContainerSource,
+  stopContainer,
   runExec,
   killExec,
   waitExec

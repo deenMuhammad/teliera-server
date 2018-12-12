@@ -9,7 +9,7 @@ const commitContainerSource = (obj, { containerId, force }, { headers }) => {
   .then(json => !!json.success);
 }
 
-const pullContainerSource = (obj, { containerId }, { headers }) => {
+const pullContainerSource = (obj, { containerId, force }, { headers }) => {
   return fetch(`http://instance.node.internal.getbouncecode.com:3000/container/${containerId}/pull?force=${force}`, {
     method: 'POST',
     headers

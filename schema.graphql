@@ -4,16 +4,16 @@ type Query {
 
   # node-courses
   courses(enrolled: Boolean): [Course]
-  course(courseId: String): Course
-  section(sectionId: String): Section
+  course(courseId: String!): Course
+  section(sectionId: String!): Section
 
   # node-gitserver
-  repoUri(repoId: String): String
-  repoUsers(repoId: String): [RepoUser]
+  repoUri(repoId: String!): String
+  repoUsers(repoId: String!): [RepoUser]
 
   # node-instance
-  container(containerId: String): Container
-  exec(execId: String): Exec
+  container(containerId: String!): Container
+  exec(execId: String!): Exec
   # images: [Image]
 
   # node-apps
@@ -26,35 +26,35 @@ type Query {
 
 type Mutation {
   # node-accounts
-  signup(email: String, password: String): Boolean
-  resendEmail(email: String): Boolean
-  emailVerify(email: String, code: String): Boolean
-  tokenPassword(email: String, password: String): Token
-  tokenGithub(code: String): Token
-  tokenFacebook(accessToken: String): Token
-  tokenGoogle(accessToken: String): Token
-  refreshToken(token: String): Token
-  changePassword(currentPassword: String, newPassword: String): Boolean
+  signup(email: String!, password: String!): Boolean
+  resendEmail(email: String!): Boolean
+  emailVerify(email: String!, code: String!): Boolean
+  tokenPassword(email: String!, password: String!): Token
+  tokenGithub(code: String!): Token
+  tokenFacebook(accessToken: String!): Token
+  tokenGoogle(accessToken: String!): Token
+  refreshToken(token: String!): Token
+  changePassword(currentPassword: String!, newPassword: String!): Boolean
 
   # node-courses
-  enroll(courseId: String): Enroll
-  startContentWorkbench(contentId: String, startContainer: Boolean): Workbench
-  testContentWorkbench(contentId: String, repoId: String): Boolean
-  resetContentWorkbench(contentId: String): Workbench
-  resetContentWorkbenchContainer(contentId: String, containerId: String): Container
+  enroll(courseId: String!): Enroll
+  startContentWorkbench(contentId: String!, startContainer: Boolean): Workbench
+  testContentWorkbench(contentId: String!, repoId: String): WaitExec
+  resetContentWorkbench(contentId: String!): Boolean
+  resetContentWorkbenchContainer(contentId: String!, containerId: String): Workbench
 
   # node-instance
-  commitContainerSource(containerId: String, force: Boolean): Boolean
-  pullContainerSource(containerId: String, force: Boolean): Boolean
-  stopContainer(containerId: String): Boolean
-  runExec(containerId: String, cmd: [String]): Exec
-  killExec(execId: String): Boolean
-  waitExec(containerId: String, cmd: [String]): WaitExec
+  commitContainerSource(containerId: String!, force: Boolean): Boolean
+  pullContainerSource(containerId: String!, force: Boolean): Boolean
+  stopContainer(containerId: String!): Boolean
+  runExec(containerId: String!, cmd: [String!]!): Exec
+  killExec(execId: String!): Boolean
+  waitExec(containerId: String!, cmd: [String!]!): WaitExec
 
   # node-gitserver
-  addUserPermission(repoId: String, emailOrTokenId: String, permission: Int): RepoUser
-  updateUserPermission(repoId: String, username: String, permission: Int): RepoUser
-  removeUserPermission(repoId: String, username: String): Boolean
+  addUserPermission(repoId: String!, emailOrTokenId: String!, permission: Int!): RepoUser
+  updateUserPermission(repoId: String!, username: String!, permission: Int!): RepoUser
+  removeUserPermission(repoId: String!, username: String!): Boolean
   # saveFile(repoId: String, path: String, data: String, commitMessage: String): Boolean
 
   # node-apps

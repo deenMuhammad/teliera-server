@@ -31,27 +31,32 @@ const testContentWorkbench = async (obj, { contentId, repoId }, { headers }) => 
   .then(data => data.json())
   .then(json => json.data)
 
-  const exec = await fetch(`http://instance.node.internal.getbouncecode.com:3000/container/test`, {
+  if ( ! content.testgit || ! content.test) return null;
+
+  const { output, inspect } = await fetch(`http://instance.node.internal.getbouncecode.com:3000/test`, {
     method: 'POST',
-    headers,
+    headers: {
+      ...headers,
+      'X-Internal': 'graphql.node.internal.getbouncecode.com'
+    },
     body: JSON.stringify({
       workgit: repoId,
       testgit: content.testgit,
       image: content.image,
-      cmd: content.test,
+      cmd: Array.isArray(content.test) ? content.test : [content.test],
       callbackContentId: contentId
     })
   })
   .then(data => data.json())
-  .then(json => ({...json.insp, Output: json.data}));
+  .then(json => ({output: json.output, inspect: json.inspect}));
 
-  return exec;
+  return { output, inspect };
 }
 
 // TODO: repoId
 const resetContentWorkbench = async (obj, { contentId }, { headers }) => {
   const success = await fetch(`http://courses.node.internal.getbouncecode.com:3000/content/${contentId}/git-reset`, {
-    method: 'GET',
+    method: 'POST',
     headers
   })
   .then(data => data.json())

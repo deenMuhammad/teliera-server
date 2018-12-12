@@ -6,6 +6,22 @@ type Query {
   courses(enrolled: Boolean): [Course]
   course(courseId: String): Course
   section(sectionId: String): Section
+
+  # node-gitserver
+  repoUri(repoId: String): String
+  repoUsers(repoId: String): [RepoUser]
+
+  # node-instance
+  container(containerId: String): Container
+  exec(execId: String): Exec
+  # images: [Image]
+
+  # node-apps
+  # ... TODO
+  # allApps: [App]
+  # myApps: [App]
+  # favorateApps: [App]
+  # app(appId: String): App
 }
 
 type Mutation {
@@ -22,16 +38,34 @@ type Mutation {
 
   # node-courses
   enroll(courseId: String): Enroll
+  startContentWorkbench(contentId: String, startContainer: Boolean): Workbench
+  testContentWorkbench(contentId: String, repoId: String): Boolean
+  resetContentWorkbench(contentId: String): Workbench
+  resetContentWorkbenchContainer(contentId: String, containerId: String): Container
 
   # node-instance
-  # WARNING: it will be updated
-  startContainer(image: String, env: String, git: String): Container
+  commitContainerSource(containerId: String, force: Boolean): Boolean
+  pullContainerSource(containerId: String, force: Boolean): Boolean
   stopContainer(containerId: String): Boolean
-  commitContainer(containerId: String): Boolean
-  testContainer(containerId: String, workgit: String, testgit: String, image: String, cmd: String, env: String): Exec
-  runExec(containerId: String, cmd: String): Exec
+  runExec(containerId: String, cmd: [String]): Exec
   killExec(execId: String): Boolean
-  waitExec(containerId: String, cmd: String): Exec
+  waitExec(containerId: String, cmd: [String]): WaitExec
+
+  # node-gitserver
+  addUserPermission(repoId: String, emailOrTokenId: String, permission: Int): RepoUser
+  updateUserPermission(repoId: String, username: String, permission: Int): RepoUser
+  removeUserPermission(repoId: String, username: String): Boolean
+  # saveFile(repoId: String, path: String, data: String, commitMessage: String): Boolean
+
+  # node-apps
+  # ... TODO
+  # createApp(imageId: String): App
+  # updateApp(appId: String, init: String, run: String, open: [String], env: String, editor: String): App
+  # runApp(appId: String): Boolean
+  # killApp(appId: String): Boolean
+  # startAppContainer(appId: String): Container
+  # addFavorateApp(appId: String): Boolean
+  # removeFavorateApp(appId: String): Boolean
 }
 
 
@@ -58,7 +92,7 @@ type Token {
 # node-courses
 
 type Course {
-  _id: String
+  _id: String # courseId
   title: String
   shortDesc: String
   longDesc: String
@@ -79,13 +113,13 @@ type Chapter {
 }
 
 type Section {
-  _id: String
+  _id: String # sectionId
   title: String
   content: Content
 }
 
 type Content {
-  _id: String
+  _id: String # contentId
   title: String
   image: String
   exec: String
@@ -104,29 +138,33 @@ type Article {
 }
 
 type Enroll {
-  _id: String,
-  user: String,
+  _id: String
+  user: String
   course: String
+}
+
+
+# node-gitserver
+
+type RepoUser {
+  _id: String # memberId
+  repoId: String
+  userId: String # username, tokenId
+  tokenKey: String
+  permission: Int # permission: 1 => Owner, 2 => Maintainer, 3 => Developer, 4 => Viewer
 }
 
 
 # node-instance
 
-type Container {
-  Id: String
-  Created: String
-  Path: String
-  Args: [String]
-  State: DockerState
-  Image: String
-  Name: String
-  RestartCount: Int
-  Platform: String
-  Config: DockerConfig
+type Workbench {
+  socketId: String
+  repoId: String
+  container: Container
 }
 
-type Exec {
-  Id: String
+type Container {
+  Id: String # containerId
   Created: String
   Path: String
   Args: [String]
@@ -134,10 +172,8 @@ type Exec {
   Image: String
   Name: String
   RestartCount: Int
-  Driver: String
   Platform: String
   Config: DockerConfig
-  Output: String
 }
 
 type DockerState {
@@ -167,4 +203,28 @@ type DockerConfig {
   Cmd: [String]
   Image: String
   WorkingDir: String
+}
+
+type WaitExec {
+  output: String
+  exec: Exec
+}
+
+type Exec {
+  ID: String # execId
+  Running: Boolean
+  ExitCode: Int
+  ProcessConfig: ProcessConfig
+  OpenStdin: Boolean
+  OpenStderr: Boolean
+  OpenStdout: Boolean
+  CanRemove: Boolean
+  ContainerID: String
+}
+
+type ProcessConfig {
+  tty: Boolean
+  entrypoint: String
+  arguments: [String]
+  privileged: Boolean
 }

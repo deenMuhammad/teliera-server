@@ -5,11 +5,25 @@ const {
 } = require('./Query/node-courses');
 
 const {
+  container,
+  exec
+} = require('./Query/node-instance');
+
+const {
   user
 } = require('./Query/node-accounts');
 
 const {
-  enroll
+  repoUri,
+  repoUsers
+} = require('./Query/node-gitserver');
+
+const {
+  enroll,
+  startContentWorkbench,
+  testContentWorkbench,
+  resetContentWorkbench,
+  resetContentWorkbenchContainer
 } = require('./Mutation/node-courses');
 
 const {
@@ -25,13 +39,20 @@ const {
 } = require('./Mutation/node-accounts');
 
 const {
-  startContainer,
+  commitContainerSource,
+  pullContainerSource,
   stopContainer,
-  testContainer,
   runExec,
   killExec,
   waitExec
 } = require('./Mutation/node-instance');
+
+const {
+  addUserPermission,
+  updateUserPermission,
+  removeUserPermission,
+} = require('./Mutation/node-gitserver');
+
 
 module.exports = {
   Query: {
@@ -40,12 +61,24 @@ module.exports = {
     course,
     section,
 
+    // node-instance
+    container,
+    exec,
+
     // node-accounts
-    user
+    user,
+
+    // node-gitserver
+    repoUri,
+    repoUsers,
   },
   Mutation: {
     // node-courses
     enroll,
+    startContentWorkbench,
+    testContentWorkbench,
+    resetContentWorkbench,
+    resetContentWorkbenchContainer,
 
     // node-accounts
     changePassword,
@@ -58,10 +91,15 @@ module.exports = {
     tokenGoogle,
     tokenPassword,
 
+    // node-gitserver
+    addUserPermission,
+    updateUserPermission,
+    removeUserPermission,
+
     // node-instance
-    startContainer,
+    commitContainerSource,
+    pullContainerSource,
     stopContainer,
-    testContainer,
     runExec,
     killExec,
     waitExec

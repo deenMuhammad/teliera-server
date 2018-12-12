@@ -12,7 +12,8 @@ type Query {
   repoUsers(repoId: String): [RepoUser]
 
   # node-instance
-  # ... TODO
+  container(containerId: String): Container
+  exec(execId: String): Exec
   # images: [Image]
 
   # node-apps
@@ -46,9 +47,9 @@ type Mutation {
   commitContainerSource(containerId: String, force: Boolean): Boolean
   pullContainerSource(containerId: String, force: Boolean): Boolean
   stopContainer(containerId: String): Boolean
-  runExec(containerId: String, cmd: String): Exec
+  runExec(containerId: String, cmd: [String]): Exec
   killExec(execId: String): Boolean
-  waitExec(containerId: String, cmd: String): Exec
+  waitExec(containerId: String, cmd: [String]): WaitExec
 
   # node-gitserver
   addUserPermission(repoId: String, emailOrTokenId: String, permission: Int): RepoUser
@@ -175,21 +176,6 @@ type Container {
   Config: DockerConfig
 }
 
-type Exec {
-  Id: String # execId
-  Created: String
-  Path: String
-  Args: [String]
-  State: DockerState
-  Image: String
-  Name: String
-  RestartCount: Int
-  Driver: String
-  Platform: String
-  Config: DockerConfig
-  Output: String
-}
-
 type DockerState {
   Status: String
   Running: Boolean
@@ -217,4 +203,28 @@ type DockerConfig {
   Cmd: [String]
   Image: String
   WorkingDir: String
+}
+
+type WaitExec {
+  output: String
+  exec: Exec
+}
+
+type Exec {
+  ID: String # execId
+  Running: Boolean
+  ExitCode: Int
+  ProcessConfig: ProcessConfig
+  OpenStdin: Boolean
+  OpenStderr: Boolean
+  OpenStdout: Boolean
+  CanRemove: Boolean
+  ContainerID: String
+}
+
+type ProcessConfig {
+  tty: Boolean
+  entrypoint: String
+  arguments: [String]
+  privileged: Boolean
 }

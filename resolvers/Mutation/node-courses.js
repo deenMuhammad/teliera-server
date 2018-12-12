@@ -10,7 +10,7 @@ const enroll = (obj, { courseId }, { headers }) => {
 }
 
 const startContentWorkbench = async (obj, { contentId, startContainer }, { headers }) => {
-  const { content, repoId, container } = await fetch(`http://instance.node.internal.getbouncecode.com:3000/content/${contentId}/start?start_container=${startContainer}`, {
+  const { content, repoId, container } = await fetch(`http://courses.node.internal.getbouncecode.com:3000/content/${contentId}/start?start_container=${startContainer}`, {
     method: 'POST',
     headers
   })
@@ -24,7 +24,7 @@ const startContentWorkbench = async (obj, { contentId, startContainer }, { heade
 }
 
 const testContentWorkbench = async (obj, { contentId, repoId }, { headers }) => {
-  const content = await fetch(`http://instance.node.internal.getbouncecode.com:3000/content/${contentId}`, {
+  const content = await fetch(`http://courses.node.internal.getbouncecode.com:3000/content/${contentId}`, {
     method: 'GET',
     headers
   })
@@ -50,7 +50,7 @@ const testContentWorkbench = async (obj, { contentId, repoId }, { headers }) => 
 
 // TODO: repoId
 const resetContentWorkbench = async (obj, { contentId }, { headers }) => {
-  const success = await fetch(`http://instance.node.internal.getbouncecode.com:3000/content/${contentId}/git-reset`, {
+  const success = await fetch(`http://courses.node.internal.getbouncecode.com:3000/content/${contentId}/git-reset`, {
     method: 'GET',
     headers
   })

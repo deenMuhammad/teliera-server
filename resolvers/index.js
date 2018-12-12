@@ -5,6 +5,11 @@ const {
 } = require('./Query/node-courses');
 
 const {
+  container,
+  exec
+} = require('./Query/node-instance');
+
+const {
   user
 } = require('./Query/node-accounts');
 
@@ -14,7 +19,11 @@ const {
 } = require('./Query/node-gitserver');
 
 const {
-  enroll
+  enroll,
+  startContentWorkbench,
+  testContentWorkbench,
+  resetContentWorkbench,
+  resetContentWorkbenchContainer
 } = require('./Mutation/node-courses');
 
 const {
@@ -32,6 +41,7 @@ const {
 const {
   commitContainerSource,
   pullContainerSource,
+  stopContainer,
   runExec,
   killExec,
   waitExec
@@ -51,6 +61,10 @@ module.exports = {
     course,
     section,
 
+    // node-instance
+    container,
+    exec,
+
     // node-accounts
     user,
 
@@ -61,6 +75,10 @@ module.exports = {
   Mutation: {
     // node-courses
     enroll,
+    startContentWorkbench,
+    testContentWorkbench,
+    resetContentWorkbench,
+    resetContentWorkbenchContainer,
 
     // node-accounts
     changePassword,
@@ -81,6 +99,7 @@ module.exports = {
     // node-instance
     commitContainerSource,
     pullContainerSource,
+    stopContainer,
     runExec,
     killExec,
     waitExec

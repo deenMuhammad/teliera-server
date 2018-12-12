@@ -35,7 +35,8 @@ const runExec = (obj, { containerId, cmd }, { headers }) => {
       cmd
     })
   })
-  .then(data => data.json());
+  .then(data => data.json())
+  .then(json => json.inspect)
 }
 
 const waitExec = (obj, { containerId, cmd }, { headers }) => {
@@ -47,7 +48,7 @@ const waitExec = (obj, { containerId, cmd }, { headers }) => {
     })
   })
   .then(data => data.json())
-  .then(json => ({...json.insp, Output: json.data}));
+  .then(json => ({output: json.output, exec: json.inspect}))
 }
 
 const killExec = (obj, { execId }, { headers }) => {

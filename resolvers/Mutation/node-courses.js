@@ -16,8 +16,10 @@ const startContentWorkbench = async (obj, { contentId, startContainer }, { heade
   })
   .then(data => data.json())
 
+  const containerName = container && container.Name ? container.Name.replace('/', '') : null;
+
   return {
-    socketId: container.Name,
+    socketId: containerName,
     repoId: repoId,
     container: container
   }

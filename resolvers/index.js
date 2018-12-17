@@ -22,7 +22,7 @@ const {
   enroll,
   startContentWorkbench,
   testContentWorkbench,
-  resetContentWorkbench,
+  resetContentWorkbenchSource,
   resetContentWorkbenchContainer
 } = require('./Mutation/node-courses');
 
@@ -44,7 +44,13 @@ const {
   stopContainer,
   runExec,
   killExec,
-  waitExec
+  waitExec,
+  startTheia,
+  stopTheia,
+  startJupyter,
+  stopJupyter,
+  startVnc,
+  stopVnc
 } = require('./Mutation/node-instance');
 
 const {
@@ -77,7 +83,7 @@ module.exports = {
     enroll,
     startContentWorkbench,
     testContentWorkbench,
-    resetContentWorkbench,
+    resetContentWorkbenchSource,
     resetContentWorkbenchContainer,
 
     // node-accounts
@@ -102,6 +108,14 @@ module.exports = {
     stopContainer,
     runExec,
     killExec,
-    waitExec
+    waitExec,
+
+    // editor
+    startTheia,
+    stopTheia,
+    startJupyter,
+    stopJupyter,
+    startVnc,
+    stopVnc
   }
 }

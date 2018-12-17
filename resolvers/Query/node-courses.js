@@ -1,43 +1,25 @@
-const fetch = require('node-fetch')
+const courseNode = require('../../nodes/course');
 
-const course = (obj, { courseId }, { headers }) => {
-  return fetch(`http://courses.node.internal.getbouncecode.com:3000/course/${courseId}`, {
-    method: 'GET',
-    headers
-  })
-  .then(data => data.json())
-  .then(json => json.data);
+const course = async (obj, { courseId }, { headers }) => {
+  const {course} = await courseNode.getCourses({ courseId }, { headers });
+  return course;
 }
 
-const courses = (obj, { enrolled }, { headers }) => {
-  if (enrolled) {
-    return fetch('http://courses.node.internal.getbouncecode.com:3000/enrolled', {
-      method: 'GET',
-      headers
-    })
-    .then(data => data.json())
-    .then(json => json.data);
-  } else {
-    return fetch('http://courses.node.internal.getbouncecode.com:3000/course', {
-      method: 'GET',
-      headers
-    })
-    .then(data => data.json())
-    .then(json => json.data);
-  }
+const courses = async (obj, { enrolled }, { headers }) => {
+  const {courseList} = (enrolled)
+      ? await courseNode.getEnrolledCourseList({}, {headers})
+      : await courseNode.getCourseList({}, {headers})
+    
+  return courseList;
 }
 
-const section = (obj, { sectionId }, { headers }) => {
-  return fetch(`http://courses.node.internal.getbouncecode.com:3000/section/${sectionId}`, {
-    method: 'GET',
-    headers
-  })
-  .then(data => data.json())
-  .then(json => json.data);
+const section = async (obj, { sectionId }, { headers }) => {
+  const {section} = await courseNode.getSection({sectionId}, {headers});
+  return section;
 }
 
 module.exports = {
-  courses,
   course,
+  courses,
   section
 }

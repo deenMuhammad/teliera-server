@@ -1,11 +1,8 @@
-const fetch = require('node-fetch')
+const accountNode = require('../../nodes/account');
 
-const user = (obj, args, { headers }) => {
-  return fetch(`http://accounts.node.internal.getbouncecode.com:3000/user`, {
-    method: 'GET',
-    headers
-  })
-  .then(data => data.json());
+const user = async (obj, args, { headers }) => {
+  const {user} = await accountNode.getUser({}, {headers});
+  return user;
 }
 
 module.exports = {

@@ -1,21 +1,14 @@
-const fetch = require('node-fetch')
+const execNode = require('../../nodes/exec');
+const containerNode = require('../../nodes/container');
 
-const exec = (obj, { execId }, { headers }) => {
-  return fetch(`http://instance.node.internal.getbouncecode.com:3000/exec/${execId}`, {
-    method: 'GET',
-    headers
-  })
-  .then(data => data.json())
-  .then(json => json.inspect);
+const exec = async (obj, { execId }, { headers }) => {
+  const {execInspect} = await execNode.getExec({ execId }, { headers });
+  return execInspect;
 }
 
-const container = (obj, { containerId }, { headers }) => {
-  return fetch(`http://instance.node.internal.getbouncecode.com:3000/container/${containerId}`, {
-    method: 'GET',
-    headers
-  })
-  .then(data => data.json())
-  .then(json => json.inspect);
+const container = async (obj, { containerId }, { headers }) => {
+  const {containerInspect} = await containerNode.getContainer({ containerId }, { headers });
+  return containerInspect;
 }
 
 module.exports = {

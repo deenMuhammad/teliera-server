@@ -1,34 +1,18 @@
-const fetch = require('node-fetch')
+const repoNode = require('../../nodes/repo');
 
-const addUserPermission = (obj, { repoId, emailOrTokenId, permission }, { headers }) => {
-  return fetch(`http://gitserver.node.internal.getbouncecode.com/${repoId}/users`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({
-      username: emailOrTokenId,
-      permission
-    })
-  })
-  .then(data => data.json());
+const addUserPermission = async (obj, { repoId, emailOrTokenId, permission }, { headers }) => {
+  const {repoUser} = await repoNode.addUserPermission({ repoId, emailOrTokenId, permission }, { headers });
+  return repoUser;
 }
 
-const updateUserPermission = (obj, { repoId, username, permission }, { headers }) => {
-  return fetch(`http://gitserver.node.internal.getbouncecode.com/${repoId}/users/${username}`, {
-    method: 'PUT',
-    headers,
-    body: JSON.stringify({
-      permission
-    })
-  })
-  .then(data => data.json());
+const updateUserPermission = async (obj, { repoId, username, permission }, { headers }) => {
+  const {repoUser} = await repoNode.updateUserPermission({ repoId, username, permission }, { headers });
+  return repoUser;
 }
 
-const removeUserPermission = (obj, { repoId, username }, { headers }) => {
-  return fetch(`http://gitserver.node.internal.getbouncecode.com/${repoId}/users/${username}`, {
-    method: 'DELETE',
-    headers
-  })
-  .then(data => data.json());
+const removeUserPermission = async (obj, { repoId, username }, { headers }) => {
+  const {isSuccess} = await repoNode.removeUserPermission({ repoId, username }, { headers });
+  return isSuccess;
 }
 
 module.exports = {

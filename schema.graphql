@@ -12,8 +12,8 @@ type Query {
   repoUsers(repoId: String!): [RepoUser]
 
   # node-instance
-  container(containerId: String!): Container
-  exec(execId: String!): Exec
+  container(containerId: String!): ContainerInspect
+  exec(execId: String!): ExecInspect
   # images: [Image]
 
   # node-apps
@@ -40,16 +40,24 @@ type Mutation {
   enroll(courseId: String!): Enroll
   startContentWorkbench(contentId: String!, startContainer: Boolean): Workbench
   testContentWorkbench(contentId: String!, repoId: String): WaitExec
-  resetContentWorkbench(contentId: String!): Boolean
+  resetContentWorkbenchSource(contentId: String!): Boolean
   resetContentWorkbenchContainer(contentId: String!, containerId: String): Workbench
+
+  # start editor
+  startTheia(containerId: String!): WaitExec
+  stopTheia(containerId: String!): WaitExec
+  startJupyter(containerId: String!): WaitExec
+  stopJupyter(containerId: String!): WaitExec
+  startVnc(containerId: String!): WaitExec
+  stopVnc(containerId: String!): WaitExec
 
   # node-instance
   commitContainerSource(containerId: String!, force: Boolean): Boolean
   pullContainerSource(containerId: String!, force: Boolean): Boolean
   stopContainer(containerId: String!): Boolean
-  runExec(containerId: String!, cmd: [String!]!): Exec
+  runExec(containerId: String!, cmd: [String!]!): ExecInspect
   killExec(execId: String!): Boolean
-  waitExec(containerId: String!, cmd: [String!]!): WaitExec
+  waitExec(containerId: String!, cmd: [String!]!, timeout: Int): WaitExec
 
   # node-gitserver
   addUserPermission(repoId: String!, emailOrTokenId: String!, permission: Int!): RepoUser
@@ -160,10 +168,10 @@ type RepoUser {
 type Workbench {
   socketId: String
   repoId: String
-  container: Container
+  container: ContainerInspect
 }
 
-type Container {
+type ContainerInspect {
   Id: String # containerId
   Created: String
   Path: String
@@ -207,10 +215,10 @@ type DockerConfig {
 
 type WaitExec {
   output: String
-  exec: Exec
+  exec: ExecInspect
 }
 
-type Exec {
+type ExecInspect {
   ID: String # execId
   Running: Boolean
   ExitCode: Int

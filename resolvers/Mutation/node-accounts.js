@@ -1,104 +1,48 @@
-const fetch = require('node-fetch')
+const accountNode = require('../../nodes/account');
 
-const changePassword = (obj, { currentPassword, newPassword }, { headers }) => {
-  return fetch(`http://accounts.node.internal.getbouncecode.com:3000/user/change_password`, {
-    method: 'PUT',
-    headers,
-    body: JSON.stringify({
-      current_password: currentPassword,
-      password: newPassword
-    })
-  })
-  .then(data => data.json())
-  .then(json => !!json.success);
+const changePassword = async (obj, { currentPassword, newPassword }, { headers }) => {
+  const {isSuccess} = await accountNode.changePassword({ currentPassword, newPassword }, { headers });
+  return isSuccess;
 }
 
-const emailVerify = (obj, { email, code }, { headers }) => {
-  return fetch(`http://accounts.node.internal.getbouncecode.com:3000/email_verify?email=${email}&code=${code}`, {
-    method: 'GET',
-    headers
-  })
-  .then(data => data.json())
-  .then(json => !!json.success);
+const emailVerify = async (obj, { email, code }, { headers }) => {
+  const {isSuccess} = await accountNode.emailVerify({ email, code }, { headers });
+  return isSuccess;
 }
 
-const refreshToken = (obj, { refreshToken }, { headers }) => {
-  return fetch(`http://accounts.node.internal.getbouncecode.com:3000/token`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({
-      grant_type: 'refresh_token',
-      refresh_token: refreshToken
-    })
-  })
-  .then(data => data.json())
-  .then(json => json.token);
+const refreshToken = async (obj, { refreshToken }, { headers }) => {
+  const {token} = await accountNode.refreshToken({ refreshToken }, { headers });
+  return token;
 }
 
-const resendEmail = (obj, { email }, { headers }) => {
-  return fetch(`http://accounts.node.internal.getbouncecode.com:3000/resend_email`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({
-      email: email
-    })
-  })
-  .then(data => data.json())
-  .then(json => !!json.success);
+const resendEmail = async (obj, { email }, { headers }) => {
+  const {isSuccess} = await accountNode.resendEmail({ email }, { headers });
+  return isSuccess;
 }
 
-const signup = (obj, { email, password }, { headers }) => {
-  return fetch(`http://accounts.node.internal.getbouncecode.com:3000/signup`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({
-      email,
-      password
-    })
-  })
-  .then(data => data.json())
-  .then(json => !!json.success);
+const signup = async (obj, { email, password }, { headers }) => {
+  const {isSuccess} = await accountNode.signup({ email, password }, { headers });
+  return isSuccess;
 }
 
-const tokenFacebook = (obj, { accessToken }, { headers }) => {
-  return fetch(`http://accounts.node.internal.getbouncecode.com:3000/token/oauth/facebook?access_token=${accessToken}`, {
-    method: 'GET',
-    headers
-  })
-  .then(data => data.json())
-  .then(json => json.token);
+const tokenFacebook = async (obj, { accessToken }, { headers }) => {
+  const {token} = await accountNode.tokenFacebook({ accessToken }, { headers });
+  return token;
 }
 
-const tokenGithub = (obj, { code }, { headers }) => {
-  return fetch(`http://accounts.node.internal.getbouncecode.com:3000/token/oauth/github?code=${code}`, {
-    method: 'GET',
-    headers
-  })
-  .then(data => data.json())
-  .then(json => json.token);
+const tokenGithub = async (obj, { code }, { headers }) => {
+  const {token} = await accountNode.tokenGithub({ code }, { headers });
+  return token;
 }
 
-const tokenGoogle = (obj, { accessToken }, { headers }) => {
-  return fetch(`http://accounts.node.internal.getbouncecode.com:3000/token/oauth/google?access_token=${accessToken}`, {
-    method: 'GET',
-    headers
-  })
-  .then(data => data.json())
-  .then(json => json.token);
+const tokenGoogle = async (obj, { accessToken }, { headers }) => {
+  const {token} = await accountNode.tokenGoogle({ accessToken }, { headers });
+  return token;
 }
 
-const tokenPassword = (obj, { email, password }, { headers }) => {
-  return fetch(`http://accounts.node.internal.getbouncecode.com:3000/token`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({
-      grant_type: 'password',
-      email,
-      password
-    })
-  })
-  .then(data => data.json())
-  .then(json => json.token);
+const tokenPassword = async (obj, { email, password }, { headers }) => {
+  const {token} = await accountNode.tokenPassword({ email, password }, { headers });
+  return token;
 }
 
 module.exports = {

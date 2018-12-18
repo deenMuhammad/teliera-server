@@ -35,9 +35,11 @@ const startTheia = async (obj, { containerId }, { headers }) => {
   const port = 1051;
   const runCmd = ['/bin/bash', '-c', `bouncecode theia start --port ${port}`];
   const waitCmd = ['/bin/bash', '-c', `bouncecode wait --port ${port}`];
+  const endpointCmd = ['/bin/bash', '-c', `echo http://${port}.$DOMAIN`];
   const {execInspect} = await containerNode.runExec({ containerId, cmd: runCmd }, { headers });
-  const {execOutput} = await containerNode.waitExec({ containerId, cmd: waitCmd }, { headers });
-  return {output: execOutput, exec: execInspect};
+  await containerNode.waitExec({ containerId, cmd: waitCmd }, { headers });
+  const {execOutput} = await containerNode.waitExec({ containerId, cmd: endpointCmd }, { headers });
+  return {output: execOutput ? execOutput.trim() : execOutput, exec: execInspect};
 }
 
 const stopTheia = async (obj, { containerId }, { headers }) => {
@@ -51,9 +53,11 @@ const startJupyter = async (obj, { containerId }, { headers }) => {
   const port = 1052;
   const runCmd = ['/bin/bash', '-c', `bouncecode jupyter start --port ${port}`];
   const waitCmd = ['/bin/bash', '-c', `bouncecode wait --port ${port}`];
+  const endpointCmd = ['/bin/bash', '-c', `echo http://${port}.$DOMAIN`];
   const {execInspect} = await containerNode.runExec({ containerId, cmd: runCmd }, { headers });
-  const {execOutput} = await containerNode.waitExec({ containerId, cmd: waitCmd }, { headers });
-  return {output: execOutput, exec: execInspect};
+  await containerNode.waitExec({ containerId, cmd: waitCmd }, { headers });
+  const {execOutput} = await containerNode.waitExec({ containerId, cmd: endpointCmd }, { headers });
+  return {output: execOutput ? execOutput.trim() : execOutput, exec: execInspect};
 }
 
 const stopJupyter = async (obj, { containerId }, { headers }) => {
@@ -68,9 +72,11 @@ const startVnc = async (obj, { containerId }, { headers }) => {
   const vncPort = 5901;
   const runCmd = ['/bin/bash', '-c', `bouncecode vnc start --port ${port} --vnc-port ${vncPort}`];
   const waitCmd = ['/bin/bash', '-c', `bouncecode wait --port ${port}`];
+  const endpointCmd = ['/bin/bash', '-c', `echo http://${port}.$DOMAIN/vnc_blank.html`];
   const {execInspect} = await containerNode.runExec({ containerId, cmd: runCmd }, { headers });
-  const {execOutput} = await containerNode.waitExec({ containerId, cmd: waitCmd }, { headers });
-  return {output: execOutput, exec: execInspect};
+  await containerNode.waitExec({ containerId, cmd: waitCmd }, { headers });
+  const {execOutput} = await containerNode.waitExec({ containerId, cmd: endpointCmd }, { headers });
+  return {output: execOutput ? execOutput.trim() : execOutput, exec: execInspect};
 }
 
 const stopVnc = async (obj, { containerId }, { headers }) => {

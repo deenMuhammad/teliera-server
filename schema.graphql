@@ -52,12 +52,15 @@ type Mutation {
   stopVnc(containerId: String!): WaitExec
 
   # node-instance
-  commitContainerSource(containerId: String!, force: Boolean): Boolean
-  pullContainerSource(containerId: String!, force: Boolean): Boolean
+  startWorkbench(image: String, git: String, env: [String]): Workbench
   stopContainer(containerId: String!): Boolean
   runExec(containerId: String!, cmd: [String!]!): ExecInspect
   killExec(execId: String!): Boolean
   waitExec(containerId: String!, cmd: [String!]!, timeout: Int): WaitExec
+
+  # Only course content container can use it
+  commitContainerSource(containerId: String!, force: Boolean): Boolean
+  pullContainerSource(containerId: String!, force: Boolean): Boolean
 
   # node-gitserver
   addUserPermission(repoId: String!, emailOrTokenId: String!, permission: Int!): RepoUser

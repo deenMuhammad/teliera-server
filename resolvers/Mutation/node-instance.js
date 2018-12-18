@@ -1,6 +1,17 @@
 const containerNode = require('../../nodes/container');
 const execNode = require('../../nodes/exec');
 
+const startWorkbench = async (obj, {image, git, env}, {headers}) => {
+  const {containerInspect} = await containerNode.startContainer({ image, git, env }, { headers });
+  const containerName = containerInspect && containerInspect.Name ? containerInspect.Name.replace('/', '') : null;
+
+  return {
+    socketId: containerName,
+    repoId: null,
+    container: containerInspect
+  };
+}
+
 const commitContainerSource = async (obj, { containerId, force }, { headers }) => {
   const {isSuccess} = await containerNode.commitContainerSource({ containerId, force }, { headers });
   return isSuccess;
@@ -88,6 +99,7 @@ const stopVnc = async (obj, { containerId }, { headers }) => {
 }
 
 module.exports = {
+  startWorkbench,
   commitContainerSource,
   pullContainerSource,
   stopContainer,

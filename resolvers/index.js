@@ -39,6 +39,7 @@ const {
 } = require('./Mutation/node-accounts');
 
 const {
+  startWorkbench,
   commitContainerSource,
   pullContainerSource,
   stopContainer,
@@ -103,6 +104,7 @@ module.exports = {
     removeUserPermission,
 
     // node-instance
+    startWorkbench,
     commitContainerSource,
     pullContainerSource,
     stopContainer,

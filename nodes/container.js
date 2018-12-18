@@ -12,6 +12,28 @@ const getContainer = async ({ containerId }, { headers }) => {
   return {containerInspect};
 }
 
+const startContainer = async ({ image, git, env }, { headers }) => {
+  const containerInspect = await fetch(`http://instance.node.internal.getbouncecode.com:3000/container`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      image,
+      env,
+      git
+    })
+  })
+  .then(data => {
+    console.trace(data);
+    return data.json();
+  })
+  .then(json => {
+    console.trace(json);
+    return json;
+  })
+
+  return {containerInspect};
+}
+
 const stopContainer = async ({ containerId }, { headers }) => {
   const isSuccess = await fetch(`http://instance.node.internal.getbouncecode.com:3000/container/${containerId}`, {
     method: 'DELETE',
@@ -78,6 +100,7 @@ const waitExec = async ({ containerId, cmd, timeout }, { headers }) => {
 }
 
 module.exports = {
+  startContainer,
   getContainer,
   commitContainerSource,
   pullContainerSource,

@@ -5,6 +5,7 @@ const {
 } = require('./Query/node-courses');
 
 const {
+  startPlaygroundWorkbench,
   container,
   exec
 } = require('./Query/node-instance');
@@ -69,6 +70,8 @@ module.exports = {
     section,
 
     // node-instance
+    startContentWorkbench,
+    startPlaygroundWorkbench,
     container,
     exec,
 
@@ -77,7 +80,7 @@ module.exports = {
 
     // node-gitserver
     repoUri,
-    repoUsers,
+    repoUsers
   },
   Mutation: {
     // node-courses

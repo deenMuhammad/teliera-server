@@ -12,6 +12,8 @@ type Query {
   repoUsers(repoId: String!): [RepoUser]
 
   # node-instance
+  startContentWorkbench(contentId: String!, editor: String, env: [String]): Workbench
+  startPlaygroundWorkbench(editor: String, image: String, env: [String]): Workbench
   container(containerId: String!): ContainerInspect
   exec(execId: String!): ExecInspect
   # images: [Image]
@@ -171,6 +173,7 @@ type RepoUser {
 type Workbench {
   socketId: String
   repoId: String
+  editorUrl: String
   container: ContainerInspect
 }
 

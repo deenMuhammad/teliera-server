@@ -5,6 +5,7 @@ const {
 } = require('./Query/node-courses');
 
 const {
+  startPlaygroundWorkbench,
   container,
   exec
 } = require('./Query/node-instance');
@@ -39,6 +40,7 @@ const {
 } = require('./Mutation/node-accounts');
 
 const {
+  startWorkbench,
   commitContainerSource,
   pullContainerSource,
   stopContainer,
@@ -68,6 +70,8 @@ module.exports = {
     section,
 
     // node-instance
+    startContentWorkbench,
+    startPlaygroundWorkbench,
     container,
     exec,
 
@@ -76,7 +80,7 @@ module.exports = {
 
     // node-gitserver
     repoUri,
-    repoUsers,
+    repoUsers
   },
   Mutation: {
     // node-courses
@@ -103,6 +107,7 @@ module.exports = {
     removeUserPermission,
 
     // node-instance
+    startWorkbench,
     commitContainerSource,
     pullContainerSource,
     stopContainer,

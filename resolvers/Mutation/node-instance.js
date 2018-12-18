@@ -1,6 +1,17 @@
 const containerNode = require('../../nodes/container');
 const execNode = require('../../nodes/exec');
 
+const startWorkbench = async (obj, {image, git, env}, {headers}) => {
+  const {containerInspect} = await containerNode.startContainer({ image, git, env }, { headers });
+  const containerName = containerInspect && containerInspect.Name ? containerInspect.Name.replace('/', '') : null;
+
+  return {
+    socketId: containerName,
+    repoId: null,
+    container: containerInspect
+  };
+}
+
 const commitContainerSource = async (obj, { containerId, force }, { headers }) => {
   const {isSuccess} = await containerNode.commitContainerSource({ containerId, force }, { headers });
   return isSuccess;
@@ -32,56 +43,37 @@ const killExec = async (obj, { execId }, { headers }) => {
 }
 
 const startTheia = async (obj, { containerId }, { headers }) => {
-  const port = 1051;
-  const runCmd = ['/bin/bash', '-c', `bouncecode theia start --port ${port}`];
-  const waitCmd = ['/bin/bash', '-c', `bouncecode wait --port ${port}`];
-  const {execInspect} = await containerNode.runExec({ containerId, cmd: runCmd }, { headers });
-  const {execOutput} = await containerNode.waitExec({ containerId, cmd: waitCmd }, { headers });
-  return {output: execOutput, exec: execInspect};
+  const {output, exec} = await containerNode.startTheia({ containerId }, { headers });
+  return {output, exec};
 }
 
 const stopTheia = async (obj, { containerId }, { headers }) => {
-  const port = 1051;
-  const cmd = ['/bin/bash', '-c', `bouncecode theia stop --port ${port}`];
-  const {execOutput, execInspect} = await containerNode.waitExec({ containerId, cmd }, { headers });
-  return {output: execOutput, exec: execInspect};
+  const {output, exec} = await containerNode.stopTheia({ containerId }, { headers });
+  return {output, exec};
 }
 
 const startJupyter = async (obj, { containerId }, { headers }) => {
-  const port = 1052;
-  const runCmd = ['/bin/bash', '-c', `bouncecode jupyter start --port ${port}`];
-  const waitCmd = ['/bin/bash', '-c', `bouncecode wait --port ${port}`];
-  const {execInspect} = await containerNode.runExec({ containerId, cmd: runCmd }, { headers });
-  const {execOutput} = await containerNode.waitExec({ containerId, cmd: waitCmd }, { headers });
-  return {output: execOutput, exec: execInspect};
+  const {output, exec} = await containerNode.startJupyter({ containerId }, { headers });
+  return {output, exec};
 }
 
 const stopJupyter = async (obj, { containerId }, { headers }) => {
-  const port = 1052;
-  const cmd = ['/bin/bash', '-c', `bouncecode jupyter stop --port ${port}`];
-  const {execOutput, execInspect} = await containerNode.waitExec({ containerId, cmd }, { headers });
-  return {output: execOutput, exec: execInspect};
+  const {output, exec} = await containerNode.stopJupyter({ containerId }, { headers });
+  return {output, exec};
 }
 
 const startVnc = async (obj, { containerId }, { headers }) => {
-  const port = 1071;
-  const vncPort = 5901;
-  const runCmd = ['/bin/bash', '-c', `bouncecode vnc start --port ${port} --vnc-port ${vncPort}`];
-  const waitCmd = ['/bin/bash', '-c', `bouncecode wait --port ${port}`];
-  const {execInspect} = await containerNode.runExec({ containerId, cmd: runCmd }, { headers });
-  const {execOutput} = await containerNode.waitExec({ containerId, cmd: waitCmd }, { headers });
-  return {output: execOutput, exec: execInspect};
+  const {output, exec} = await containerNode.startVnc({ containerId }, { headers });
+  return {output, exec};
 }
 
 const stopVnc = async (obj, { containerId }, { headers }) => {
-  const port = 1071;
-  const vncPort = 5901;
-  const cmd = ['/bin/bash', '-c', `bouncecode vnc stop --port ${port} --vnc-port ${vncPort}`];
-  const {execOutput, execInspect} = await containerNode.waitExec({ containerId, cmd }, { headers });
-  return {output: execOutput, exec: execInspect};
+  const {output, exec} = await containerNode.stopVnc({ containerId }, { headers });
+  return {output, exec};
 }
 
 module.exports = {
+  startWorkbench,
   commitContainerSource,
   pullContainerSource,
   stopContainer,

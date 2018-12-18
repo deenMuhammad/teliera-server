@@ -12,8 +12,8 @@ services:
         aliases:
           - graphql.internal.getbouncecode.com
           - graphql.node.internal.getbouncecode.com
-    ports:
-      - 3000:3000
+    # ports:
+    #   - 3000:3000
 
 
 networks:

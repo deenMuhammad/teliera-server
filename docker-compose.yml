@@ -3,6 +3,7 @@ version: "3.5"
 services:
 
   app:
+    image: gcr.io/bounce-code/nodes/graphql-app
     build:
       context: .
       dockerfile: Dockerfile

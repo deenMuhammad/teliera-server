@@ -26,6 +26,7 @@ const startContentWorkbench = async (obj, {editor, contentId}, {}) => {
 }
 
 const startPlaygroundWorkbench = async (obj, {editor, image, env}, {headers}) => {
+  image = image || 'theia';
   const {containerInspect} = await containerNode.startContainer({ image, env }, { headers });
   const containerName = containerInspect && containerInspect.Name ? containerInspect.Name.replace('/', '') : null;
   

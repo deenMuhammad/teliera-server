@@ -72,6 +72,7 @@ module.exports = {
     // node-instance
     startContentWorkbench,
     startPlaygroundWorkbench,
+    waitExec,
     container,
     exec,
 

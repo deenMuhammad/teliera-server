@@ -1,7 +1,7 @@
 const courseNode = require('../../nodes/course');
 
 const course = async (obj, { courseId }, { headers }) => {
-  const {course} = await courseNode.getCourses({ courseId }, { headers });
+  const {course} = await courseNode.getCourse({ courseId }, { headers });
   return course;
 }
 

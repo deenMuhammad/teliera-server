@@ -11,6 +11,42 @@ const getRepoUri = async ({ repoId }, { headers }) => {
   return {repoUri};
 }
 
+const getRepoList = async ({}, { headers }) => {
+  const repoList = await fetch(`http://gitserver.node.internal.getbouncecode.com/repo`, {
+    method: 'GET',
+    headers
+  })
+  .then(data => data.json())
+  .then(json => json.list);
+
+  return {repoList};
+}
+
+const createRepo = async ({}, { headers }) => {
+  const repo = await fetch(`http://gitserver.node.internal.getbouncecode.com/repo`, {
+    method: 'POST',
+    headers
+  })
+  .then(data => {
+    console.trace(data);
+    return data.json();
+  })
+  .then(json => json.data);
+
+  return {repo};
+}
+
+const deleteRepo = async ({ repoId }, { headers }) => {
+  const isSuccess = await fetch(`http://gitserver.node.internal.getbouncecode.com/repo/${repoId}`, {
+    method: 'DELETE',
+    headers
+  })
+  .then(data => data.json())
+  .then(json => json.success);
+
+  return {isSuccess};
+}
+
 const getRepoUsers = async ({ repoId }, { headers }) => {
   const repoUserList = await fetch(`http://gitserver.node.internal.getbouncecode.com/repo/${repoId}/users`, {
     method: 'GET',
@@ -61,6 +97,9 @@ const removeUserPermission = async ({ repoId, username }, { headers }) => {
 }
 
 module.exports = {
+  getRepoList,
+  createRepo,
+  deleteRepo,
   getRepoUri,
   getRepoUsers,
   addUserPermission,

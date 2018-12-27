@@ -8,6 +8,7 @@ type Query {
   section(sectionId: String!): Section
 
   # node-gitserver
+  getRepoList: [Repo]
   repoUri(repoId: String!): String
   repoUsers(repoId: String!): [RepoUser]
 
@@ -66,6 +67,8 @@ type Mutation {
   pullContainerSource(containerId: String!, force: Boolean): Boolean
 
   # node-gitserver
+  createRepo: Repo,
+  deleteRepo(repoId: String!): Boolean,
   addUserPermission(repoId: String!, emailOrTokenId: String!, permission: Int!): RepoUser
   updateUserPermission(repoId: String!, username: String!, permission: Int!): RepoUser
   removeUserPermission(repoId: String!, username: String!): Boolean
@@ -159,6 +162,14 @@ type Enroll {
 
 
 # node-gitserver
+
+type Repo {
+  _id: String # repoId
+  permission: Int # permission: 1 => Owner, 2 => Maintainer, 3 => Developer, 4 => Viewer
+  managedBy: String
+  giturl: String
+  createAt: String
+}
 
 type RepoUser {
   _id: String # memberId

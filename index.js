@@ -6,12 +6,16 @@ const server = new ApolloServer({
   typeDefs: gql(fs.readFileSync(__dirname + '/schema.graphql').toString()),
   resolvers,
   context: ({ req }) => {
+    const userAgent = req.headers['user-agent'];
+    const accountId = req.headers['x-accounts-id'];
+    const cookie = req.headers['cookie'];
+
     return {
       req,
       headers: {
-        'User-Agent': req.headers['user-agent'],
-        'X-Accounts-Id': req.headers['x-accounts-id'],
-        'Cookie': req.headers['cookie'],
+        'User-Agent': userAgent || '',
+        'X-Accounts-Id': accountId || '',
+        'Cookie': cookie || '',
         'Content-Type': 'application/json'
       }
     }

@@ -15,6 +15,7 @@ const {
 } = require('./Query/node-accounts');
 
 const {
+  getRepoList,
   repoUri,
   repoUsers
 } = require('./Query/node-gitserver');
@@ -56,6 +57,8 @@ const {
 } = require('./Mutation/node-instance');
 
 const {
+  createRepo,
+  deleteRepo,
   addUserPermission,
   updateUserPermission,
   removeUserPermission,
@@ -80,6 +83,7 @@ module.exports = {
     user,
 
     // node-gitserver
+    getRepoList,
     repoUri,
     repoUsers
   },
@@ -103,6 +107,8 @@ module.exports = {
     tokenPassword,
 
     // node-gitserver
+    createRepo,
+    deleteRepo,
     addUserPermission,
     updateUserPermission,
     removeUserPermission,

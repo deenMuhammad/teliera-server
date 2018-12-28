@@ -1,3 +1,5 @@
+const GraphQLJSON = require('graphql-type-json')
+
 const { courses, course, section } = require('./Query/node-courses');
 const { startPlaygroundWorkbench, container, exec } = require('./Query/node-instance');
 const { user } = require('./Query/node-accounts');
@@ -24,9 +26,11 @@ const {
 const {
   submitCreditCard, deleteCreditCard, changeSubscription
 } = require('./Mutation/node-billing');
+const { signupMailchimp } = require('./Mutation/mailchimp');
 
 
 module.exports = {
+  JSON: GraphQLJSON,
   Query: {
     // node-courses
     courses,
@@ -55,6 +59,8 @@ module.exports = {
     getSubscription
   },
   Mutation: {
+    signupMailchimp,
+
     // node-courses
     enroll,
     startContentWorkbench,

@@ -1,3 +1,5 @@
+scalar JSON
+
 type Query {
   # node-accounts
   user: User
@@ -35,6 +37,8 @@ type Query {
 }
 
 type Mutation {
+  signupMailchimp(email: String!, listId: String!, interests: JSON, mergeFields: JSON): Boolean
+
   # node-accounts
   signup(email: String!, password: String!): Boolean
   resendEmail(email: String!): Boolean

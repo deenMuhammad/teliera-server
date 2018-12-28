@@ -25,7 +25,7 @@ const startContentWorkbench = async (obj, {editor, contentId}, {}) => {
   }
 }
 
-const startPlaygroundWorkbench = async (obj, {editor, git, image, env}, {headers}) => {
+const startPlaygroundWorkbench = async (obj, {editor, repoId: git, image, env}, {headers}) => {
   const {containerInspect} = await containerNode.startContainer({ image, git, env }, { headers });
   const containerName = containerInspect && containerInspect.Name ? containerInspect.Name.replace('/', '') : null;
   

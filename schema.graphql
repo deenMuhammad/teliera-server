@@ -20,6 +20,12 @@ type Query {
   exec(execId: String!): ExecInspect
   # images: [Image]
 
+  # node-billing
+  getCreditCard: CreditCard,
+  getBalance: Balance,
+  getBalanceHistory(skip: Int, limit: Int): [Balance],
+  getSubscription: Subscription
+
   # node-apps
   # ... TODO
   # allApps: [App]
@@ -73,6 +79,12 @@ type Mutation {
   updateUserPermission(repoId: String!, username: String!, permission: Int!): RepoUser
   removeUserPermission(repoId: String!, username: String!): Boolean
   # saveFile(repoId: String, path: String, data: String, commitMessage: String): Boolean
+
+  # node-billing
+  submitCreditCard(card: CreditCardInfo!): Boolean
+  deleteCreditCard: Boolean
+  changeSubscription(nextPlan: String!): Boolean
+  # free, indivisual_monthly, indivisual_yearly, team_monthly, team_yearly, enterprise_monthly, enterprise_yearly
 
   # node-apps
   # ... TODO
@@ -253,4 +265,42 @@ type ProcessConfig {
   entrypoint: String
   arguments: [String]
   privileged: Boolean
+}
+
+# node-billing
+
+type Balance {
+  userId: String,
+  balance: Int,
+  amount: Int,
+  memo: String,
+  changeAt: String
+}
+
+type Subscription {
+  # related current subscription
+  merchantId: String
+  currentPlan: String
+  startAt: String
+  expiresAt: String
+  paidAt: String
+
+  # related next plan
+  nextPlan: String
+  changeAt: String
+}
+
+type CreditCard {
+  customer_uid: String
+  card_name: String
+  card_code: String
+  inserted: String
+  updated: String
+}
+
+input CreditCardInfo {
+  card_number: String
+  expiry: String
+  birth: String
+  pwd_2digit: String
 }

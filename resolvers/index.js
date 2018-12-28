@@ -1,68 +1,29 @@
-const {
-  courses,
-  course,
-  section
-} = require('./Query/node-courses');
+const { courses, course, section } = require('./Query/node-courses');
+const { startPlaygroundWorkbench, container, exec } = require('./Query/node-instance');
+const { user } = require('./Query/node-accounts');
+const { getRepoList, repoUri, repoUsers } = require('./Query/node-gitserver');
+const { getCreditCard, getBalance, getBalanceHistory, getSubscription } = require('./Query/node-billing');
 
 const {
-  startPlaygroundWorkbench,
-  container,
-  exec
-} = require('./Query/node-instance');
-
-const {
-  user
-} = require('./Query/node-accounts');
-
-const {
-  getRepoList,
-  repoUri,
-  repoUsers
-} = require('./Query/node-gitserver');
-
-const {
-  enroll,
-  startContentWorkbench,
-  testContentWorkbench,
-  resetContentWorkbenchSource,
-  resetContentWorkbenchContainer
+  enroll, startContentWorkbench, testContentWorkbench,
+  resetContentWorkbenchSource, resetContentWorkbenchContainer
 } = require('./Mutation/node-courses');
-
 const {
-  changePassword,
-  emailVerify,
-  refreshToken,
-  resendEmail,
-  signup,
-  tokenFacebook,
-  tokenGithub,
-  tokenGoogle,
-  tokenPassword
+  changePassword, emailVerify, refreshToken, resendEmail,
+  signup, tokenFacebook, tokenGithub, tokenGoogle, tokenPassword
 } = require('./Mutation/node-accounts');
-
 const {
-  startWorkbench,
-  commitContainerSource,
-  pullContainerSource,
-  stopContainer,
-  runExec,
-  killExec,
-  waitExec,
-  startTheia,
-  stopTheia,
-  startJupyter,
-  stopJupyter,
-  startVnc,
-  stopVnc
+  startWorkbench, commitContainerSource, pullContainerSource,
+  stopContainer, runExec, killExec, waitExec, startTheia,
+  stopTheia, startJupyter, stopJupyter, startVnc, stopVnc
 } = require('./Mutation/node-instance');
-
 const {
-  createRepo,
-  deleteRepo,
-  addUserPermission,
-  updateUserPermission,
-  removeUserPermission,
+  createRepo, deleteRepo, addUserPermission,
+  updateUserPermission, removeUserPermission,
 } = require('./Mutation/node-gitserver');
+const {
+  submitCreditCard, deleteCreditCard, changeSubscription
+} = require('./Mutation/node-billing');
 
 
 module.exports = {
@@ -85,7 +46,13 @@ module.exports = {
     // node-gitserver
     getRepoList,
     repoUri,
-    repoUsers
+    repoUsers,
+
+    // node-billing
+    getCreditCard,
+    getBalance,
+    getBalanceHistory,
+    getSubscription
   },
   Mutation: {
     // node-courses
@@ -128,6 +95,11 @@ module.exports = {
     startJupyter,
     stopJupyter,
     startVnc,
-    stopVnc
+    stopVnc,
+
+    // node-billing
+    submitCreditCard,
+    deleteCreditCard,
+    changeSubscription
   }
 }

@@ -14,7 +14,7 @@ type Query {
 
   # node-instance
   startContentWorkbench(contentId: String!, editor: String, env: [String]): Workbench
-  startPlaygroundWorkbench(editor: String, image: String, env: [String]): Workbench
+  startPlaygroundWorkbench(image: String!, editor: String, git: String, env: [String]): Workbench
   waitExec(containerId: String!, cmd: [String!]!, timeout: Int): WaitExec
   container(containerId: String!): ContainerInspect
   exec(execId: String!): ExecInspect

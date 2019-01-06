@@ -2,24 +2,32 @@ scalar JSON
 
 type Query {
   # node-accounts
-  user: User
+  getUser: User
+  user: User # @Deprecated
 
   # node-courses
-  courses(enrolled: Boolean): [Course]
-  course(courseId: String!): Course
-  section(sectionId: String!): Section
+  getCourseList(enrolled: Boolean): [Course]
+  getCourse(courseId: String!): Course
+  getSection(sectionId: String!): Section
+  courses(enrolled: Boolean): [Course] # @Deprecated
+  course(courseId: String!): Course # @Deprecated
+  section(sectionId: String!): Section # @Deprecated
 
   # node-gitserver
   getRepoList: [Repo]
-  repoUri(repoId: String!): String
-  repoUsers(repoId: String!): [RepoUser]
+  getRepo(repoId: String!): Repo
+  getRepoMemberList(repoId: String!): [RepoUser]
+  repoUri(repoId: String!): String # @Deprecated
+  repoUsers(repoId: String!): [RepoUser] # @Deprecated
 
   # node-instance
+  getContainer(containerId: String!): ContainerInspect
+  getExec(execId: String!): ExecInspect
   startContentWorkbench(contentId: String!, editor: String, env: [String]): Workbench
   startPlaygroundWorkbench(image: String!, editor: String, repoId: String, env: [String]): Workbench
   waitExec(containerId: String!, cmd: [String!]!, timeout: Int): WaitExec
-  container(containerId: String!): ContainerInspect
-  exec(execId: String!): ExecInspect
+  container(containerId: String!): ContainerInspect # @Deprecated
+  exec(execId: String!): ExecInspect # @Deprecated
   # images: [Image]
 
   # node-billing

@@ -1,111 +1,103 @@
 const GraphQLJSON = require('graphql-type-json')
 
-const { courses, course, section } = require('./Query/node-courses');
-const { startPlaygroundWorkbench, container, exec } = require('./Query/node-instance');
-const { user } = require('./Query/node-accounts');
-const { getRepoList, repoUri, repoUsers } = require('./Query/node-gitserver');
-const { getCreditCard, getBalance, getBalanceHistory, getSubscription } = require('./Query/node-billing');
+const courseQuery = require('./Query/node-courses');
+const instanceQuery = require('./Query/node-instance');
+const accountQuery = require('./Query/node-accounts');
+const gitserverQuery = require('./Query/node-gitserver');
+const billingQuery = require('./Query/node-billing');
 
-const {
-  enroll, startContentWorkbench, testContentWorkbench,
-  resetContentWorkbenchSource, resetContentWorkbenchContainer
-} = require('./Mutation/node-courses');
-const {
-  changePassword, emailVerify, refreshToken, resendEmail,
-  signup, tokenFacebook, tokenGithub, tokenGoogle, tokenPassword
-} = require('./Mutation/node-accounts');
-const {
-  startWorkbench, commitContainerSource, pullContainerSource,
-  stopContainer, runExec, killExec, waitExec, startTheia,
-  stopTheia, startJupyter, stopJupyter, startVnc, stopVnc
-} = require('./Mutation/node-instance');
-const {
-  createRepo, deleteRepo, addUserPermission,
-  updateUserPermission, removeUserPermission,
-} = require('./Mutation/node-gitserver');
-const {
-  submitCreditCard, deleteCreditCard, changeSubscription
-} = require('./Mutation/node-billing');
-const { signupMailchimp } = require('./Mutation/mailchimp');
-
+const courseMutation = require('./Mutation/node-courses');
+const accountMutation = require('./Mutation/node-accounts');
+const gitserverMutation = require('./Mutation/node-gitserver');
+const billingMutation = require('./Mutation/node-billing');
+const mailchimpMutation = require('./Mutation/mailchimp');
+const instanceMutation = require('./Mutation/node-instance');
 
 module.exports = {
   JSON: GraphQLJSON,
   Query: {
     // node-courses
-    courses,
-    course,
-    section,
+    getCourseList: courseQuery.courses,
+    getCourse: courseQuery.course,
+    getSection: courseQuery.section,
+    courses: courseQuery.courses, // @Deprecated
+    course: courseQuery.course, // @Deprecated
+    section: courseQuery.section, // @Deprecated
 
     // node-instance
-    startContentWorkbench,
-    startPlaygroundWorkbench,
-    waitExec,
-    container,
-    exec,
+    getContainer: instanceQuery.container,
+    getExec: instanceQuery.exec,
+    startContentWorkbench: courseMutation.startContentWorkbench,
+    startPlaygroundWorkbench: instanceQuery.startPlaygroundWorkbench,
+    waitExec: instanceMutation.waitExec,
+    container: instanceQuery.container, // @Deprecated
+    exec: instanceQuery.exec, // @Deprecated
 
     // node-accounts
-    user,
+    getUser: accountQuery.user,
+    user: accountQuery.user, // @Deprecated
 
     // node-gitserver
-    getRepoList,
-    repoUri,
-    repoUsers,
+    getRepoList: gitserverQuery.getRepoList,
+    getRepo: gitserverQuery.getRepo,
+    getRepoMemberList: gitserverQuery.repoUsers,
+    repoUri: gitserverQuery.repoUri, // @Deprecated
+    repoUsers: gitserverQuery.repoUsers, // @Deprecated
 
     // node-billing
-    getCreditCard,
-    getBalance,
-    getBalanceHistory,
-    getSubscription
+    getCreditCard: billingQuery.getCreditCard,
+    getBalance: billingQuery.getBalance,
+    getBalanceHistory: billingQuery.getBalanceHistory,
+    getSubscription: billingQuery.getSubscription
   },
   Mutation: {
-    signupMailchimp,
+    signupMailchimp: mailchimpMutation.signupMailchimp,
 
     // node-courses
-    enroll,
-    startContentWorkbench,
-    testContentWorkbench,
-    resetContentWorkbenchSource,
-    resetContentWorkbenchContainer,
+    enroll: courseMutation.enroll,
+    startContentWorkbench: courseMutation.startContentWorkbench,
+    testContentWorkbench: courseMutation.testContentWorkbench,
+    resetContentWorkbenchSource: courseMutation.resetContentWorkbenchSource,
+    resetContentWorkbenchContainer: courseMutation.resetContentWorkbenchContainer,
 
     // node-accounts
-    changePassword,
-    emailVerify,
-    refreshToken,
-    resendEmail,
-    signup,
-    tokenFacebook,
-    tokenGithub,
-    tokenGoogle,
-    tokenPassword,
+    changePassword: accountMutation.changePassword,
+    emailVerify: accountMutation.emailVerify,
+    refreshToken: accountMutation.refreshToken,
+    resendEmail: accountMutation.resendEmail,
+    signup: accountMutation.signup,
+    tokenFacebook: accountMutation.tokenFacebook,
+    tokenGithub: accountMutation.tokenGithub,
+    tokenGoogle: accountMutation.tokenGoogle,
+    tokenPassword: accountMutation.tokenPassword,
 
     // node-gitserver
-    createRepo,
-    deleteRepo,
-    addUserPermission,
-    updateUserPermission,
-    removeUserPermission,
+    createRepo: gitserverMutation.createRepo,
+    deleteRepo: gitserverMutation.deleteRepo,
+    addUserPermission: gitserverMutation.addUserPermission,
+    updateUserPermission: gitserverMutation.updateUserPermission,
+    removeUserPermission: gitserverMutation.removeUserPermission,
 
     // node-instance
-    startWorkbench,
-    commitContainerSource,
-    pullContainerSource,
-    stopContainer,
-    runExec,
-    killExec,
-    waitExec,
+    startWorkbench: instanceMutation.startWorkbench,
+    commitContainerSource: instanceMutation.commitContainerSource,
+    pullContainerSource: instanceMutation.pullContainerSource,
+    stopContainer: instanceMutation.stopContainer,
+    runExec: instanceMutation.runExec,
+    killExec: instanceMutation.killExec,
+    waitExec: instanceMutation.waitExec,
 
     // editor
-    startTheia,
-    stopTheia,
-    startJupyter,
-    stopJupyter,
-    startVnc,
-    stopVnc,
+    startTheia: instanceMutation.startTheia,
+    stopTheia: instanceMutation.stopTheia,
+    startJupyter: instanceMutation.startJupyter,
+    stopJupyter: instanceMutation.stopJupyter,
+    startVnc: instanceMutation.startVnc,
+    stopVnc: instanceMutation.stopVnc,
 
     // node-billing
-    submitCreditCard,
-    deleteCreditCard,
-    changeSubscription
+    submitCreditCard: billingMutation.submitCreditCard,
+    deleteCreditCard: billingMutation.deleteCreditCard,
+    changeSubscription: billingMutation.changeSubscription
   }
 }

@@ -1,5 +1,16 @@
 const fetch = require('node-fetch')
 
+const getRepo = async ({ repoId }, { headers }) => {
+  const repo = await fetch(`http://gitserver.node.internal.getbouncecode.com/repo/${repoId}`, {
+    method: 'GET',
+    headers
+  })
+  .then(data => data.json())
+  .then(json => json);
+
+  return {repo};
+}
+
 const getRepoUri = async ({ repoId }, { headers }) => {
   const repoUri = await fetch(`http://gitserver.node.internal.getbouncecode.com/repo/${repoId}/uri`, {
     method: 'GET',
@@ -98,6 +109,7 @@ const removeUserPermission = async ({ repoId, username }, { headers }) => {
 
 module.exports = {
   getRepoList,
+  getRepo,
   createRepo,
   deleteRepo,
   getRepoUri,

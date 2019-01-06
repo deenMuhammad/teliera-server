@@ -5,6 +5,11 @@ const getRepoList = async (obj, {}, { headers }) => {
   return repoList;
 }
 
+const getRepo = async (obj, { repoId }, { headers }) => {
+  const {repo} = await repoNode.getRepo({ repoId }, { headers });
+  return repo;
+}
+
 const repoUri = async (obj, { repoId }, { headers }) => {
   const {repoUri} = await repoNode.getRepoUri({ repoId }, { headers });
   return repoUri;
@@ -17,6 +22,7 @@ const repoUsers = async (obj, { repoId }, { headers }) => {
 
 module.exports = {
   getRepoList,
+  getRepo,
   repoUri,
   repoUsers
 }

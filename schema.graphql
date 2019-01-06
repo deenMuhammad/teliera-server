@@ -81,7 +81,7 @@ type Mutation {
   waitExec(containerId: String!, cmd: [String!]!, timeout: Int): WaitExec
 
   # Only course content container can use it
-  commitContainerSource(containerId: String!, force: Boolean): Boolean
+  pushContainerSource(containerId: String!, force: Boolean): Boolean
   pullContainerSource(containerId: String!, force: Boolean): Boolean
 
   # node-gitserver

@@ -39,8 +39,8 @@ const stopContainer = async ({ containerId }, { headers }) => {
   return {isSuccess};
 }
 
-const commitContainerSource = async ({ containerId, force }, { headers }) => {
-  const isSuccess = await fetch(`http://instance.node.internal.getbouncecode.com:3000/container/${containerId}/commit?force=${force}`, {
+const pushContainerSource = async ({ containerId, force }, { headers }) => {
+  const isSuccess = await fetch(`http://instance.node.internal.getbouncecode.com:3000/container/${containerId}/push?force=${force}`, {
     method: 'POST',
     headers
   })
@@ -152,7 +152,7 @@ const stopVnc = async ({ containerId }, { headers }) => {
 module.exports = {
   startContainer,
   getContainer,
-  commitContainerSource,
+  pushContainerSource,
   pullContainerSource,
   stopContainer,
   runExec,

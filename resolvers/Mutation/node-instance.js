@@ -12,8 +12,8 @@ const startWorkbench = async (obj, {image, git, env}, {headers}) => {
   };
 }
 
-const commitContainerSource = async (obj, { containerId, force }, { headers }) => {
-  const {isSuccess} = await containerNode.commitContainerSource({ containerId, force }, { headers });
+const pushContainerSource = async (obj, { containerId, force }, { headers }) => {
+  const {isSuccess} = await containerNode.pushContainerSource({ containerId, force }, { headers });
   return isSuccess;
 }
 
@@ -74,7 +74,7 @@ const stopVnc = async (obj, { containerId }, { headers }) => {
 
 module.exports = {
   startWorkbench,
-  commitContainerSource,
+  pushContainerSource,
   pullContainerSource,
   stopContainer,
   runExec,

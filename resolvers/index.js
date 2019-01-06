@@ -80,7 +80,7 @@ module.exports = {
 
     // node-instance
     startWorkbench: instanceMutation.startWorkbench,
-    commitContainerSource: instanceMutation.commitContainerSource,
+    pushContainerSource: instanceMutation.pushContainerSource,
     pullContainerSource: instanceMutation.pullContainerSource,
     stopContainer: instanceMutation.stopContainer,
     runExec: instanceMutation.runExec,

@@ -21,11 +21,10 @@ type Query {
   repoUsers(repoId: String!): [RepoUser] # @Deprecated
 
   # node-instance
+  startContentWorkbench(contentId: String!, editor: String, startContainer: Boolean): Workbench # @Deprecated
+  startPlaygroundWorkbench(image: String!, editor: String, repoId: String, env: [String]): Workbench # @Deprecated
   getContainer(containerId: String!): ContainerInspect
   getExec(execId: String!): ExecInspect
-  startContentWorkbench(contentId: String!, editor: String, env: [String]): Workbench
-  startPlaygroundWorkbench(image: String!, editor: String, repoId: String, env: [String]): Workbench
-  waitExec(containerId: String!, cmd: [String!]!, timeout: Int): WaitExec
   container(containerId: String!): ContainerInspect # @Deprecated
   exec(execId: String!): ExecInspect # @Deprecated
   # images: [Image]
@@ -60,7 +59,6 @@ type Mutation {
 
   # node-courses
   enroll(courseId: String!): Enroll
-  startContentWorkbench(contentId: String!, startContainer: Boolean): Workbench
   testContentWorkbench(contentId: String!, repoId: String): WaitExec
   resetContentWorkbenchSource(contentId: String!): Boolean
   resetContentWorkbenchContainer(contentId: String!, containerId: String): Workbench
@@ -74,6 +72,8 @@ type Mutation {
   stopVnc(containerId: String!): WaitExec
 
   # node-instance
+  startContentWorkbench(contentId: String!, editor: String, startContainer: Boolean): Workbench
+  startPlaygroundWorkbench(image: String!, editor: String, repoId: String, env: [String]): Workbench
   startWorkbench(image: String, git: String, env: [String]): Workbench
   stopContainer(containerId: String!): Boolean
   runExec(containerId: String!, cmd: [String!]!): ExecInspect

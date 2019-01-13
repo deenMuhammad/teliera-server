@@ -25,11 +25,10 @@ module.exports = {
     section: courseQuery.section, // @Deprecated
 
     // node-instance
+    startContentWorkbench: instanceMutation.startContentWorkbench, // @Deprecated
+    startPlaygroundWorkbench: instanceMutation.startPlaygroundWorkbench, // @Deprecated
     getContainer: instanceQuery.container,
     getExec: instanceQuery.exec,
-    startContentWorkbench: courseMutation.startContentWorkbench,
-    startPlaygroundWorkbench: instanceQuery.startPlaygroundWorkbench,
-    waitExec: instanceMutation.waitExec,
     container: instanceQuery.container, // @Deprecated
     exec: instanceQuery.exec, // @Deprecated
 
@@ -55,7 +54,6 @@ module.exports = {
 
     // node-courses
     enroll: courseMutation.enroll,
-    startContentWorkbench: courseMutation.startContentWorkbench,
     testContentWorkbench: courseMutation.testContentWorkbench,
     resetContentWorkbenchSource: courseMutation.resetContentWorkbenchSource,
     resetContentWorkbenchContainer: courseMutation.resetContentWorkbenchContainer,
@@ -79,6 +77,8 @@ module.exports = {
     removeUserPermission: gitserverMutation.removeUserPermission,
 
     // node-instance
+    startContentWorkbench: instanceMutation.startContentWorkbench,
+    startPlaygroundWorkbench: instanceMutation.startPlaygroundWorkbench,
     startWorkbench: instanceMutation.startWorkbench,
     pushContainerSource: instanceMutation.pushContainerSource,
     pullContainerSource: instanceMutation.pullContainerSource,

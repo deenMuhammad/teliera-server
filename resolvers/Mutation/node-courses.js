@@ -8,18 +8,6 @@ const enroll = async (obj, { courseId }, { headers }) => {
   return enroll;
 }
 
-const startContentWorkbench = async (obj, { contentId, startContainer }, { headers }) => {
-  const {repoId} = await contentNode.createOrGetRepo({contentId}, {headers});
-  const {container} = (startContainer) ? await contentNode.createOrGetContainer({contentId}, {headers}) : {container: null};
-  const containerName = container && container.Name ? container.Name.replace('/', '') : null;
-
-  return {
-    socketId: containerName,
-    repoId,
-    container
-  }
-}
-
 const testContentWorkbench = async (obj, { contentId, repoId }, { headers }) => {
   const {content} = await contentNode.getContent({contentId, repoId}, {headers});
   if ( ! content.testgit || ! content.test) return null;
@@ -50,7 +38,6 @@ const resetContentWorkbenchContainer = async (obj, { contentId, containerId }, {
 
 module.exports = {
   enroll,
-  startContentWorkbench,
   testContentWorkbench,
   resetContentWorkbenchSource,
   resetContentWorkbenchContainer

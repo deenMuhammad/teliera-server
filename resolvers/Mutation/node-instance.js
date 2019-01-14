@@ -8,7 +8,7 @@ const startContentWorkbench = async (obj, {contentId, startContainer}, {headers}
   const {container} = (startContainer) ? await contentNode.createOrGetContainer({contentId}, {headers}) : {container: null};
   const containerName = container && container.Name ? container.Name.replace('/', '') : null;
 
-  const editor = content.editor;
+  const editor = content.editor || 'theia';
   let editorUrl;
 
   if (editor == 'jupyter') {

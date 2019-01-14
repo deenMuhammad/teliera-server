@@ -21,7 +21,7 @@ type Query {
   repoUsers(repoId: String!): [RepoUser] # @Deprecated
 
   # node-instance
-  startContentWorkbench(contentId: String!, editor: String, startContainer: Boolean): Workbench # @Deprecated
+  startContentWorkbench(contentId: String!, startContainer: Boolean): Workbench # @Deprecated
   startPlaygroundWorkbench(image: String!, editor: String, repoId: String, env: [String]): Workbench # @Deprecated
   getContainer(containerId: String!): ContainerInspect
   getExec(execId: String!): ExecInspect

@@ -28,5 +28,5 @@ app.use(cors({credentials: true}));
 const port = 4000;
 
 app.listen({ port }, () =>
-  console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`),
+  console.log(`🚀 Server ready at https://teliera.herokuapp.com:${port}`),
 );

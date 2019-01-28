@@ -1,318 +1,155 @@
 scalar JSON
 
 type Query {
-  # node-accounts
-  getUser: User
-  user: User # @Deprecated
-
-  # node-courses
-  getCourseList(enrolled: Boolean): [Course]
-  getCourse(courseId: String!): Course
-  getSection(sectionId: String!): Section
-  courses(enrolled: Boolean): [Course] # @Deprecated
-  course(courseId: String!): Course # @Deprecated
-  section(sectionId: String!): Section # @Deprecated
-
-  # node-gitserver
-  getRepoList: [Repo]
-  getRepo(repoId: String!): Repo
-  getRepoMemberList(repoId: String!): [RepoUser]
-  repoUri(repoId: String!): String # @Deprecated
-  repoUsers(repoId: String!): [RepoUser] # @Deprecated
-
-  # node-instance
-  startContentWorkbench(contentId: String!, startContainer: Boolean): Workbench # @Deprecated
-  startPlaygroundWorkbench(image: String!, editor: String, repoId: String, env: [String]): Workbench # @Deprecated
-  getContainer(containerId: String!): ContainerInspect
-  getExec(execId: String!): ExecInspect
-  container(containerId: String!): ContainerInspect # @Deprecated
-  exec(execId: String!): ExecInspect # @Deprecated
-  # images: [Image]
-
-  # node-billing
-  getCreditCard: CreditCard,
-  getBalance: Balance,
-  getBalanceHistory(skip: Int, limit: Int): [Balance],
-  getSubscription: Subscription
-
-  # node-apps
-  # ... TODO
-  # allApps: [App]
-  # myApps: [App]
-  # favorateApps: [App]
-  # app(appId: String): App
+  header: accessToken,
+  getProduct(_id: String!): Product,
+  getHotProductBatch(
+      pageSize: Int,
+      next: Int
+  ): PaginatedProduct!
+  getSaleProductBatch(
+      pageSize: Int,
+      next: Int
+  ): PaginatedProduct!
+  getShop(_id: String!): Shop
+  getShopBatch(
+      pageSize: Int,
+      next: Int
+  ): PaginatedShops!
+  getSingleShopProductBatch(
+    _id: String!, #shop ID
+    pageSize: Int,
+    next: Int,
+  ):PaginatedProduct
+  logInWithPassword(
+    username: String!,
+    password: String!
+  ): String
+  getOrdersBatch(
+    pageSize: Int,
+    next: Int
+  ): PaginatedOrder
+  getCartProductBatch(
+    pageSize: Int,
+    next: Int
+  ):PaginatedCartProducts,
+  getLikedProductBatch(
+    pageSize: Int,
+    next: Int
+  ):PaginatedLikedProducts
 }
 
-type Mutation {
-  signupMailchimp(email: String!, listId: String!, interests: JSON, mergeFields: JSON): Boolean
-
-  # node-accounts
-  signup(email: String!, password: String!): Boolean
-  resendEmail(email: String!): Boolean
-  emailVerify(email: String!, code: String!): Boolean
-  tokenPassword(email: String!, password: String!): Token
-  tokenGithub(code: String!): Token
-  tokenFacebook(accessToken: String!): Token
-  tokenGoogle(accessToken: String!): Token
-  refreshToken(token: String!): Token
-  changePassword(currentPassword: String!, newPassword: String!): Boolean
-
-  # node-courses
-  enroll(courseId: String!): Enroll
-  testContentWorkbench(contentId: String!, repoId: String): WaitExec
-  resetContentWorkbenchSource(contentId: String!): Boolean
-  resetContentWorkbenchContainer(contentId: String!, containerId: String): Workbench
-
-  # start editor
-  startTheia(containerId: String!): WaitExec
-  stopTheia(containerId: String!): WaitExec
-  startJupyter(containerId: String!): WaitExec
-  stopJupyter(containerId: String!): WaitExec
-  startVnc(containerId: String!): WaitExec
-  stopVnc(containerId: String!): WaitExec
-
-  # node-instance
-  startContentWorkbench(contentId: String!, editor: String, startContainer: Boolean): Workbench
-  startPlaygroundWorkbench(image: String!, editor: String, repoId: String, env: [String]): Workbench
-  startWorkbench(image: String, git: String, env: [String]): Workbench
-  stopContainer(containerId: String!): Boolean
-  runExec(containerId: String!, cmd: [String!]!): ExecInspect
-  killExec(execId: String!): Boolean
-  waitExec(containerId: String!, cmd: [String!]!, timeout: Int): WaitExec
-
-  # Only course content container can use it
-  pushContainerSource(containerId: String!, force: Boolean): Boolean
-  pullContainerSource(containerId: String!, force: Boolean): Boolean
-
-  # node-gitserver
-  createRepo: Repo,
-  deleteRepo(repoId: String!): Boolean,
-  addUserPermission(repoId: String!, emailOrTokenId: String!, permission: Int!): RepoUser
-  updateUserPermission(repoId: String!, username: String!, permission: Int!): RepoUser
-  removeUserPermission(repoId: String!, username: String!): Boolean
-  # saveFile(repoId: String, path: String, data: String, commitMessage: String): Boolean
-
-  # node-billing
-  submitCreditCard(card: CreditCardInfo!): Boolean
-  deleteCreditCard: Boolean
-  changeSubscription(nextPlan: String!): Boolean
-  # free, indivisual_monthly, indivisual_yearly, team_monthly, team_yearly, enterprise_monthly, enterprise_yearly
-
-  # node-apps
-  # ... TODO
-  # createApp(imageId: String): App
-  # updateApp(appId: String, init: String, run: String, open: [String], env: String, editor: String): App
-  # runApp(appId: String): Boolean
-  # killApp(appId: String): Boolean
-  # startAppContainer(appId: String): Container
-  # addFavorateApp(appId: String): Boolean
-  # removeFavorateApp(appId: String): Boolean
+type Mutation{
+  signUpWithPassword(
+    username: String!, 
+    name: String!, 
+    password: String!,
+    address: String!,
+    phone: String!
+  ):String,
+  addToCart(
+    product_id: String!
+  ):Boolean
+  addToLiked(
+    product_id: String!
+  ):Boolean
 }
 
+type PaginatedProduct {
+  next: Int!
+  hasMore: Boolean!
+  products: [Product]!
+}
+ type PaginatedShops {
+  next: Int
+  hasMore: Boolean
+  shops: [ShopforBatch]
+ }
+ type PaginatedOrder{
+  next: Int!
+  hasMore: Boolean!
+  order: [Order]
+ }
+ type PaginatedCartProducts {
+  next: Int!
+  hasMore: Boolean!
+  cart: [CartProduct]
+}
+type PaginatedLikedProducts {
+  next: Int!
+  hasMore: Boolean!
+  liked: [LikedProduct]
+}
+type Product {
+  name: String
+  Price: Float
+  Category: Int
+  Stock: [Item]
+  shop: String
+  short_desc: String
+  long_desc: String
+  discount: Float
+  hot: Boolean
+  images:[String],
+  date_added: Float
+}
+type Item {
+      color: String
+      size: Float
+      count: Int
+}
+type Shop {
+  name: String,
+  logo: String,
+  address: String,
+  phone: String,
+  username: String,
+  password: String,
+  sales: Int,
+  rank: Int,
+  account: String,
+  date_opened: Float,
+}
+type ShopforBatch{
+  showcase: [String]
+  Shop: Shop
+}
+type Order {
+  customer_id: String,
+  product_id: String,
+  status: Int,
+  shipping_adress: String,
+  phone: String,
+  payment_type: String,
+  item: [Item], #We need array of items in orders because user might order 2 or more of the same kind
+  date_ordered: Float
+}
 
-# node-accounts
-
+type accessToken {
+  user_id: String,
+  iat: Int,
+  exp: Int
+}
 type User {
-  id: String
-  email: String
-  emailVerified: Boolean
-  password: Boolean
-  facebookId: Boolean
-  googleId: Boolean
-  githubId: Boolean
+  username: String,
+  name: String,
+  password: String,
+  address: String,
+  phone: String,
+  sign_up_date: Float
 }
 
-type Token {
-  access_token: String
-  token_type: String
-  expires_in: Int
-  refresh_token: String
+type CartProduct {
+  _id: String,
+  product_id: Product,
+  customer_id: String
+  date_added: Float,
+  #we have to add specs of product added to cart. For example, color, number
 }
-
-
-# node-courses
-
-type Course {
-  _id: String # courseId
-  title: String
-  shortDesc: String
-  longDesc: String
-  showcase: [Showcase]
-  chapter: [Chapter]
-}
-
-type Showcase {
-  _id: String
-  title: String
-  image: String
-}
-
-type Chapter {
-  _id: String
-  title: String
-  section: [Section]
-}
-
-type Section {
-  _id: String # sectionId
-  title: String
-  content: Content
-}
-
-type Content {
-  _id: String # contentId
-  title: String
-  image: String
-  exec: String
-  start: String
-  test: String
-  docs: [Article]
-  workgit: String
-  testgit: String
-  isComplete: Boolean
-}
-
-type Article {
-  _id: String
-  title: String
-  article: String
-}
-
-type Enroll {
-  _id: String
-  user: String
-  course: String
-}
-
-
-# node-gitserver
-
-type Repo {
-  _id: String # repoId
-  permission: Int # permission: 1 => Owner, 2 => Maintainer, 3 => Developer, 4 => Viewer
-  managedBy: String
-  giturl: String
-  createAt: String
-}
-
-type RepoUser {
-  _id: String # memberId
-  repoId: String
-  userId: String # username, tokenId
-  tokenKey: String
-  permission: Int # permission: 1 => Owner, 2 => Maintainer, 3 => Developer, 4 => Viewer
-}
-
-
-# node-instance
-
-type Workbench {
-  socketId: String
-  repoId: String
-  editorUrl: String
-  container: ContainerInspect
-}
-
-type ContainerInspect {
-  Id: String # containerId
-  Created: String
-  Path: String
-  Args: [String]
-  State: DockerState
-  Image: String
-  Name: String
-  RestartCount: Int
-  Platform: String
-  Config: DockerConfig
-}
-
-type DockerState {
-  Status: String
-  Running: Boolean
-  Paused: Boolean
-  Restarting: Boolean
-  OOMKilled: Boolean
-  Dead: Boolean
-  ExitCode: Int
-  Error: String
-  StartedAt: String
-  FinishedAt: String
-}
-
-type DockerConfig {
-  Hostname: String
-  Domainname: String
-  User: String
-  AttachStdin: Boolean
-  AttachStdout: Boolean
-  AttachStderr: Boolean
-  Tty: Boolean
-  OpenStdin: Boolean
-  StdinOnce: Boolean
-  Env: [String]
-  Cmd: [String]
-  Image: String
-  WorkingDir: String
-}
-
-type WaitExec {
-  output: String
-  exec: ExecInspect
-}
-
-type ExecInspect {
-  ID: String # execId
-  Running: Boolean
-  ExitCode: Int
-  ProcessConfig: ProcessConfig
-  OpenStdin: Boolean
-  OpenStderr: Boolean
-  OpenStdout: Boolean
-  CanRemove: Boolean
-  ContainerID: String
-}
-
-type ProcessConfig {
-  tty: Boolean
-  entrypoint: String
-  arguments: [String]
-  privileged: Boolean
-}
-
-# node-billing
-
-type Balance {
-  userId: String,
-  balance: Int,
-  amount: Int,
-  memo: String,
-  changeAt: String
-}
-
-type Subscription {
-  # related current subscription
-  merchantId: String
-  currentPlan: String
-  startAt: String
-  expiresAt: String
-  paidAt: String
-
-  # related next plan
-  nextPlan: String
-  changeAt: String
-}
-
-type CreditCard {
-  customer_uid: String
-  card_name: String
-  card_code: String
-  inserted: String
-  updated: String
-}
-
-input CreditCardInfo {
-  card_number: String
-  expiry: String
-  birth: String
-  pwd_2digit: String
+type LikedProduct {
+  _id: String,
+  product_id: Product,
+  customer_id: String
+  date_added: Float,
+  #we have to add specs of product Liked by user. For example, color, number
 }

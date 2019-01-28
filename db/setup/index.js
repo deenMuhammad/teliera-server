@@ -62,9 +62,9 @@ mongoose.connection.on('connected', ()=>{
     //     date_added: Date.now()
     // }).save();
 });
-mongoose.connection.on('error', (err)=>{
-    throw new Error(err);
+mongoose.connection.on('error', ()=>{
+    throw new Error("Failed to Connect to Databse");
 });
-mongoose.connection.on('disconnected', (err)=>{
-    throw new Error(err);
+mongoose.connection.on('disconnected', ()=>{
+    throw new Error("Databse Disconnected");
 });

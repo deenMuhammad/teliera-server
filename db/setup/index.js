@@ -66,5 +66,5 @@ mongoose.connection.on('error', (err)=>{
     throw new Error("Failed to Connect to Databse "+err);
 });
 mongoose.connection.on('disconnected', (err)=>{
-    throw new Error("Databse Disconnected "+err);
+    throw new Error(err);
 });

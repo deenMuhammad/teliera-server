@@ -1,0 +1,6 @@
+[{"_id":"5c49953d1aa03eb5a1f92ead","username":"deem@mail.ru","name":"Deen","password":"a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3","address":"somewhere","phone":"something","sign_up_date":"1548583448456"},
+
+{"_id":{"$oid":"5c4995581aa03eb5a1f92eae"},"username":"hadus_bi@mail.ru","name":"Ibrohim","password":"a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3","address":"somewhere","phone":"something","__v":{"$numberInt":"0"},"sign_up_date":{"$numberLong":"1548583448456"}},
+
+{"_id":{"$oid":"5c49b1dca678b1b8da12d8ef"},"username":"deen@mail.ru","name":"Deen","password":"a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3","address":"somewhere","phone":"something","__v":{"$numberInt":"0"},"sign_up_date":{"$numberLong":"1548583448456"}}
+]

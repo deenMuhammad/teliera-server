@@ -1,0 +1,4 @@
+{"_id":{"$oid":"5c4e78f9a6899ee07b09ada9"},"product_id":{"$oid":"5c4562e28fab5083a4b4ebda"},"customer_id":{"$oid":"5c49b1dca678b1b8da12d8ef"},"date_added":{"$numberLong":"1548646649324"},"__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5c4e9f7ade276be99b16d396"},"product_id":{"$oid":"5c48612cee2ff0a39a7530d8"},"customer_id":{"$oid":"5c49b1dca678b1b8da12d8ef"},"date_added":{"$numberLong":"1548656506352"},"__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5c4e9f93de276be99b16d397"},"product_id":{"$oid":"5c481927bcd9a68225043149"},"customer_id":{"$oid":"5c49b1dca678b1b8da12d8ef"},"date_added":{"$numberLong":"1548656531084"},"__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5c4e9fb4de276be99b16d398"},"product_id":{"$oid":"5c48192dbcd9a6822504314b"},"customer_id":{"$oid":"5c49b1dca678b1b8da12d8ef"},"date_added":{"$numberLong":"1548656564573"},"__v":{"$numberInt":"0"}}

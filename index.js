@@ -25,8 +25,8 @@ const app = express();
 server.applyMiddleware({ app, path: '/graphql' });
 app.use(cors({credentials: true}));
 
-const port = process.env.PORT;
+// const port = process.env.PORT;
 
-app.listen({port}, () =>
-  console.log(`🚀 Server ready at https://teliera.herokuapp.com:${port}/graphql`),
-);
+server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
+  console.log(`🚀 Server ready at ${url}`);
+});

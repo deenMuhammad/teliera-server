@@ -27,6 +27,6 @@ app.use(cors({credentials: true}));
 
 // const port = process.env.PORT;
 
-server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
+app.listen({ port: process.env.PORT || 4000 }, ({ url }) => {
   console.log(`🚀 Server ready at ${url}`);
 });

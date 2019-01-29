@@ -27,6 +27,6 @@ app.use(cors({credentials: true}));
 
 
 
-app.listen({ port: 4000 }, () =>
-  console.log(`🚀 Server ready at https://teliera.herokuapp.com:4000}/graphql`),
+app.listen({ port: process.env.PORT || 4000 }, () =>
+  console.log(`🚀 Server ready at https://teliera.herokuapp.com:${process.env.PORT || 4000}/graphql`),
 );

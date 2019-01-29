@@ -24,10 +24,10 @@ const app = express();
 server.applyMiddleware({ app });
 app.use(cors({credentials: true}));
 
-app.get('/', function (req, res) {
-  res.send('hello world')
-})
+// app.get('/', function (req, res) {
+//   res.send('hello world')
+// })
 
-app.listen({ port: process.env.PORT || 4000 }, () =>
-  console.log(`🚀 Server ready at https://teliera.herokuapp.com:${process.env.PORT || 4000}`),
-);
+// app.listen({ port: process.env.PORT || 4000 }, () =>
+//   console.log(`🚀 Server ready at https://teliera.herokuapp.com:${process.env.PORT || 4000}`),
+// );

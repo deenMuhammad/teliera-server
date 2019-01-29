@@ -1,6 +1,8 @@
 const fs = require('fs');
-const { ApolloServer, gql } = require('apollo-server'); 
-
+const express = require('express');
+const { ApolloServer, gql } = require('apollo-server-express');
+const cors = require('cors')
+ 
 require('./db/index')
 
 const typeDefs = gql(fs.readFileSync(__dirname + '/schema.graphql').toString());
@@ -17,7 +19,13 @@ const context = ({ req }) => {
 };
 
 const server = new ApolloServer({ typeDefs, resolvers, context });   //this line is used when we need headers
-const port = process.env.PORT
-server.listen({ port:  port || 4000 }).then(({ url }) => {
-  console.log(`🚀 Server ready at ${url} https://teliera.herokuapp.com:${port}/graphql`);
-});
+// const server = new ApolloServer({ typeDefs, resolvers });
+
+const app = express();
+server.applyMiddleware({ app, path: 'graphql' });
+app.use(cors({credentials: true}));
+const port = process.env.PORT;
+
+app.listen({port: port}, () =>
+  console.log(`🚀 Server ready at https://teliera.herokuapp.com:${port}/graphql`),
+);

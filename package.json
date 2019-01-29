@@ -8,6 +8,10 @@
     "start": "node index.js",
     "dev": "node index.js"
   },
+  "engines": {
+    "npm": "6.5.0",
+    "node": "10.14.1"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

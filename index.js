@@ -22,11 +22,11 @@ const server = new ApolloServer({ typeDefs, resolvers, context });   //this line
 // const server = new ApolloServer({ typeDefs, resolvers });
 
 const app = express();
-server.applyMiddleware({ app, path: '/' });
+server.applyMiddleware({ app, path: '/graphql' });
 app.use(cors({credentials: true}));
 
 const port = process.env.PORT;
 
 app.listen({port}, () =>
-  console.log(`🚀 Server ready at https://teliera.herokuapp.com:${port}/`),
+  console.log(`🚀 Server ready at https://teliera.herokuapp.com:${port}/graphql`),
 );

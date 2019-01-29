@@ -3,6 +3,10 @@ const express = require('express');
 const { ApolloServer, gql } = require('apollo-server-express');
 const cors = require('cors')
 require('./db/index')
+const app = express();
+
+app.get('/', function (req, res) {
+  
 
 const typeDefs = gql(fs.readFileSync(__dirname + '/schema.graphql').toString());
 
@@ -20,14 +24,12 @@ const context = ({ req }) => {
 const server = new ApolloServer({ typeDefs, resolvers, context });   //this line is used when we need headers
 // const server = new ApolloServer({ typeDefs, resolvers });
 
-const app = express();
+
 server.applyMiddleware({ app });
 app.use(cors({credentials: true}));
 
-// app.get('/', function (req, res) {
-//   res.send('hello world')
-// })
 
 app.listen({ port: process.env.PORT || 4000 }, () =>
   console.log(`🚀 Server ready at https://teliera.herokuapp.com:${process.env.PORT || 4000}`),
 );
+})

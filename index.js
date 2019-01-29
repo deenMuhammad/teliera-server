@@ -26,6 +26,7 @@ server.applyMiddleware({ app });
 app.use(cors({credentials: true}));
 
 
-app.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
-  console.log(`🚀 Server ready at ${url}`);
-});
+
+app.listen({ port: process.env.PORT || 4000 }, () =>
+  console.log(`🚀 Server ready at https://teliera.herokuapp.com:${process.env.PORT || 4000}`),
+);

@@ -3,7 +3,7 @@ const shop = require('./../../nodes/shop')
 const getShop = async (obj, {_id}, headers)=>{
     const Shop = await shop.getShop(_id);
     if(!Shop){
-        return Shop;
+        return null;
     }
     return Shop;
 }

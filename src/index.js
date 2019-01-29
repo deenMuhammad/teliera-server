@@ -22,7 +22,7 @@ const server = new ApolloServer({ typeDefs, resolvers, context });   //this line
 // const server = new ApolloServer({ typeDefs, resolvers });
 
 const app = express();
-server.applyMiddleware({ app, path: '/graphql' });
+server.applyMiddleware({ app });
 app.use(cors({credentials: true}));
 const port = process.env.PORT;
 

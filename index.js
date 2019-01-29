@@ -28,6 +28,6 @@ app.use(cors({credentials: true}));
 //   res.send('hello world')
 // })
 
-// app.listen({ port: process.env.PORT || 4000 }, () =>
-//   console.log(`🚀 Server ready at https://teliera.herokuapp.com:${process.env.PORT || 4000}`),
-// );
+app.listen({ port: process.env.PORT || 4000 }, () =>
+  console.log(`🚀 Server ready at https://teliera.herokuapp.com:${process.env.PORT || 4000}`),
+);

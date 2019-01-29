@@ -19,5 +19,5 @@ const context = ({ req }) => {
 const server = new ApolloServer({ typeDefs, resolvers, context });   //this line is used when we need headers
 const port = process.env.PORT
 server.listen({ port:  port || 4000 }).then(({ url }) => {
-  console.log(`🚀 Server ready at https://teliera.herokuapp.com:${port}/graphql`);
+  console.log(`🚀 Server ready at ${url} https://teliera.herokuapp.com:${port}/graphql`);
 });

@@ -23,8 +23,8 @@ const server = new ApolloServer({ typeDefs, resolvers, context });   //this line
 // const server = new ApolloServer({ typeDefs, resolvers });
 
 // const app = express();
-
-server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
+const port = process.env.PORT
+server.listen({ port:  port || 4000 }).then(({ url }) => {
   console.log(`🚀 Server ready at https://teliera.herokuapp.com:${port}/graphql`);
 });
 // app.use(cors({credentials: true}));

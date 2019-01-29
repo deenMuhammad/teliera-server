@@ -24,7 +24,9 @@ const server = new ApolloServer({ typeDefs, resolvers, context });   //this line
 const app = express();
 server.applyMiddleware({ app, path: '/graphql' });
 app.use(cors({credentials: true}));
-
+app.get('/', (req, res)=>{
+  res.send("HEllo Deen")
+})
 const port = process.env.PORT;
 
 app.listen({port: port}, () =>

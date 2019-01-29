@@ -99,6 +99,7 @@ type Item {
       count: Int
 }
 type Shop {
+  _id: String,
   name: String,
   logo: String,
   address: String,

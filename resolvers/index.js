@@ -4,11 +4,13 @@ const shop = require('./Query/node-shops');
 const users = require('./Query/node-users');
 const user = require('./../nodes/user')
 const mutationUsers = require('./Mutation/node-users');
-const orders = require('./Query/node-orders')
-const carts = require('./Query/node-cart')
-const cartsMutation = require('./Mutation/node-cart')
-const likeds = require('./Query/node-liked')
-const likedsMutation = require('./Mutation/node-liked')
+const orders = require('./Query/node-orders');
+const carts = require('./Query/node-cart');
+const cartsMutation = require('./Mutation/node-cart');
+const likeds = require('./Query/node-liked');
+const likedsMutation = require('./Mutation/node-liked');
+const superadmins = require('./Query/node-superadmin');
+const admins = require('./Query/node-admin');
 
 module.exports = {
   JSON: GraphQLJSON,
@@ -23,7 +25,9 @@ module.exports = {
     logInWithPassword: users.loginWithPassword,
     getOrdersBatch: orders.getOrdersBatch,
     getCartProductBatch: carts.getCartProductBatch,
-    getLikedProductBatch: likeds.getLikedProductBatch
+    getLikedProductBatch: likeds.getLikedProductBatch,
+    LogInSuperAdmin: superadmins.loginWithPassword,
+    LogInAdmin: admins.loginWithPassword
   },
   Mutation: {
     signUpWithPassword: mutationUsers.signUpWithPassword,

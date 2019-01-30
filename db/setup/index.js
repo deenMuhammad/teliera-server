@@ -5,8 +5,11 @@ const User = require('./../models/user');
 const Order = require('./../models/order');
 const Cart = require('./../models/cart');
 const Liked = require('./../models/liked');
+const SuperAdmin = require('./../models/superadmin')
+const cryptoPassword = require('./../../services/passwordCrypto')
 
-var dbURI = "mongodb://<deenmuhammad>:<+1587455Zorro>@ds033255.mlab.com:33255/teliera"
+// var dbURI = "mongodb://deenmuhammad:+1587455Zorro@ds033255.mlab.com:33255/teliera"
+var dbURI = "mongodb://localhost/teliera"
 mongoose.connect(dbURI, { useNewUrlParser: true })
 mongoose.connection.on('connected', ()=>{
     console.log("Connected to Database");
@@ -60,6 +63,10 @@ mongoose.connection.on('connected', ()=>{
     //     product_id: '5c48612cee2ff0a39a7530d8',
     //     customer_id: '5c49b1dca678b1b8da12d8ef',
     //     date_added: Date.now()
+    // }).save();
+    // var superadmin = SuperAdmin({
+    //     username: 'deen@mail.ru',
+    //     password: cryptoPassword('123')
     // }).save();
 });
 mongoose.connection.on('error', ()=>{

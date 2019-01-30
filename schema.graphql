@@ -36,7 +36,15 @@ type Query {
   getLikedProductBatch(
     pageSize: Int,
     next: Int
-  ):PaginatedLikedProducts
+  ):PaginatedLikedProducts,
+  LogInSuperAdmin(
+    username: String!,
+    password: String!
+  ):String
+  LogInAdmin(
+    username: String!,
+    password: String!
+  ):String
 }
 
 type Mutation{
@@ -81,6 +89,7 @@ type PaginatedLikedProducts {
   liked: [LikedProduct]
 }
 type Product {
+  _id: String,
   name: String
   Price: Float
   Category: Int
@@ -153,4 +162,9 @@ type LikedProduct {
   customer_id: String
   date_added: Float,
   #we have to add specs of product Liked by user. For example, color, number
+}
+type SuperAdmin {
+  _id: String,
+  username: String,
+  password: String
 }

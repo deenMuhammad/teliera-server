@@ -8,7 +8,7 @@ const CreateTokenwithPassword = async (username, password)=>{ //I have called th
     if(!user){
         throw new Error("userNotFound");
     }
-    if(user.password === passwordCrypto(password)){
+    if(user.password === passwordCrypto(password)){//actually from front end this should come as encrypted with passwordCrypto()
         //time to make access token 
         const expiresIn = 7776000;
         const accessToken = jwt.sign({

@@ -12,7 +12,7 @@ const LogInSuperAdmin = async (username, password)=>{//this finction should retu
         //time to make access token 
         const expiresIn = 7776000;
         const accessToken = jwt.sign({
-            superadmin_id: superuser._id,
+            _id: superuser._id,
         }, secret, {expiresIn: expiresIn}); //made token
         return accessToken;
     }
@@ -22,11 +22,17 @@ const LogInSuperAdmin = async (username, password)=>{//this finction should retu
 }
 
 const verifySuperAdmin = async (token)=>{    //This is not a resolver function. This is helper function
-    var res = await jwt.verify(token, secret);
+    if(token===null){
+        return null;
+    }
+    try {var res = await jwt.verify(token, secret);}
+    catch(err){
+        return false
+    }
     if(!res){
         return false;
     }
-    const superadmin = await SuperAdmin.findById({_id: res.superadmin_id}).exec();
+    const superadmin = await SuperAdmin.findById({_id: res._id}).exec();
     if(superadmin){
         return true
     }

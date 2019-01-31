@@ -7,6 +7,10 @@ type Query {
       pageSize: Int,
       next: Int
   ): PaginatedProduct!
+  getUnapprovedProductBatch(
+      pageSize: Int,
+      next: Int
+  ): PaginatedProduct!
   getSaleProductBatch(
       pageSize: Int,
       next: Int
@@ -61,6 +65,34 @@ type Mutation{
   addToLiked(
     product_id: String!
   ):Boolean
+  addShop(
+    name: String!,
+    logo: String!,
+    address: String!,
+    phone: String!,
+    username: String!,
+    password: String!,
+    account: String!,
+  ):Boolean
+  addProduct(
+    name: String!
+    Price: Float!
+    Category: Int!
+    Stock:[InputItem!]
+    short_desc: String!
+    long_desc: String!
+    discount: Float!
+    hot: Boolean!
+    images:[
+        String!
+    ]
+  ):Boolean,
+  deleteProduct(
+    id: String!
+  ):Boolean
+  approveProduct(
+    id: String!
+  ):Boolean
 }
 
 type PaginatedProduct {
@@ -100,7 +132,8 @@ type Product {
   discount: Float
   hot: Boolean
   images:[String],
-  date_added: Float
+  date_added: Float,
+  approved: Boolean,
 }
 type Item {
       color: String
@@ -167,4 +200,10 @@ type SuperAdmin {
   _id: String,
   username: String,
   password: String
+}
+
+input InputItem {
+      color: String
+      size: Float
+      count: Int
 }

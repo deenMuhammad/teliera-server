@@ -24,5 +24,5 @@ const getSingleShopProductBatch = async (obj, {_id, pageSize, next}, headers)=>{
 module.exports = {
     getShop,
     getShopBatch,
-    getSingleShopProductBatch
+    getSingleShopProductBatch,
 }

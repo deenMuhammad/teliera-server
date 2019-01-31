@@ -15,6 +15,13 @@ const getHotProductBatch = async (obj, {pageSize, next}, headers)=>{
     }
     return result;
 }
+const getUnapprovedProductBatch = async (obj, {pageSize, next}, headers)=>{
+    const result = await products.getUnapproveProductBatch(pageSize, next);
+    if(!result){
+        return null;
+    }
+    return result;
+}
 const getSaleProductBatch = async (obj, {pageSize, next}, headers)=>{
     const result = await products.getSaleProductBatch(pageSize, next);
     if(!result){
@@ -26,5 +33,6 @@ const getSaleProductBatch = async (obj, {pageSize, next}, headers)=>{
 module.exports = {
     oneProduct,
     getHotProductBatch,
-    getSaleProductBatch
+    getSaleProductBatch,
+    getUnapprovedProductBatch
 }

@@ -1,6 +1,8 @@
 const Shop = require('./../db/models/shop');
 const Product = require('./../db/models/product') 
 const products = require('./../nodes/product')
+const superadmins = require('./superadmin')
+const passwordCrypto = require('./../services/passwordCrypto')
 
 const getShop = (_id)=>{
     const result = Shop.findById({_id: _id}).exec();
@@ -74,8 +76,41 @@ const getSingleShopProductBatch = async (_id, pageSize, next)=>{
     }
 }
 
+const addShop = async ({name, logo, address, phone, username, password, account}, ctx)=>{
+    //sales rank date_opened should be added
+    if(await superadmins.verifySuperAdmin(ctx.headers.accessToken)){//token valid and the superAdmin is valid
+        const userName = await Shop.findOne({username: username}).exec();
+        if(userName){
+            throw new Error(`usernameTaken`);
+        }
+        var newShop = await Shop({
+            name: name,
+            logo: logo,
+            address: address,
+            phone: phone,
+            username: username,
+            password: passwordCrypto(password),
+            sales: 0,
+            rank: 0,
+            account: account,
+            date_opened: Date.now()
+        }).save()
+        if(!newShop){
+            throw new Error("addShopUpFailed");
+        }
+        else{
+            return true;
+        }
+    }
+    else{
+        throw new Error('superAdminTokenFailed');
+    }
+}
+
+
 module.exports = {
     getShop,
     getShopBatch,
-    getSingleShopProductBatch
+    getSingleShopProductBatch,
+    addShop
 }

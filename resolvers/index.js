@@ -1,6 +1,8 @@
 const GraphQLJSON = require('graphql-type-json');
 const products = require('./Query/node-product');
+const productsMutation = require('./Mutation/node-products');
 const shop = require('./Query/node-shops');
+const shopMutation = require('./Mutation/node-shop');
 const users = require('./Query/node-users');
 const user = require('./../nodes/user')
 const mutationUsers = require('./Mutation/node-users');
@@ -19,6 +21,7 @@ module.exports = {
     getProduct: products.oneProduct,
     getHotProductBatch: products.getHotProductBatch,
     getSaleProductBatch: products.getSaleProductBatch,
+    getUnapprovedProductBatch: products.getUnapprovedProductBatch,
     getShop: shop.getShop,
     getShopBatch: shop.getShopBatch,
     getSingleShopProductBatch: shop.getSingleShopProductBatch,
@@ -32,6 +35,10 @@ module.exports = {
   Mutation: {
     signUpWithPassword: mutationUsers.signUpWithPassword,
     addToCart: cartsMutation.addToCart,
-    addToLiked: likedsMutation.addToLiked
+    addToLiked: likedsMutation.addToLiked,
+    addShop: shopMutation.addShop,
+    addProduct: productsMutation.addProduct,
+    deleteProduct: productsMutation.deleteProduct,
+    approveProduct: productsMutation.approveProduct
   }
 }

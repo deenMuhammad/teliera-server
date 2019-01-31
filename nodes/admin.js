@@ -12,7 +12,7 @@ const LogInAdmin = async (username, password)=>{//this finction should return to
         //time to make access token 
         const expiresIn = 7776000;
         const accessToken = jwt.sign({
-            admin_id: admin._id,
+            _id: admin._id,
         }, secret, {expiresIn: expiresIn}); //made token
         return accessToken;
     }
@@ -24,14 +24,15 @@ const LogInAdmin = async (username, password)=>{//this finction should return to
 const verifyAdmin = async (token)=>{    //This is not a resolver function. This is helper function
     var res = await jwt.verify(token, secret);
     if(!res){
-        return false;
+        return {bool: false, id: ''};
     }
-    const admin = await Admin.findById({_id: res.admin_id}).exec();
+    const admin = await Admin.findById({_id: res._id}).exec();
+    var id = res._id;
     if(admin){
-        return true
+        return {bool: true, id: id}
     }
     else{
-        false
+        return {bool: false, id: ''}
     }
 }
 

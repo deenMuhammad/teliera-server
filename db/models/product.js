@@ -18,5 +18,5 @@ module.exports = mongoose.model('Product', new mongoose.Schema({
         String
     ],
     date_added: Number,
-    approved: Boolean,
+    approved: Number, 
 }));

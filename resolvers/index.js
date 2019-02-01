@@ -17,11 +17,16 @@ const admins = require('./Query/node-admin');
 module.exports = {
   JSON: GraphQLJSON,
   Query: {
-    header: async (obj,{}, ctx)=>{ var User = await user.verifyUser(ctx.headers.accessToken); console.log(User.user_id); return User},
+    header: async (obj,{}, ctx)=>{ var User = await user.verifyUser(ctx.headers.accessToken); console.log(User._id); return User},
     getProduct: products.oneProduct,
     getHotProductBatch: products.getHotProductBatch,
     getSaleProductBatch: products.getSaleProductBatch,
-    getUnapprovedProductBatch: products.getUnapprovedProductBatch,
+    getDisapprovedProductBatch: products.getDisapprovedProductBatch,
+    getApprovedProductBatch: products.getApprovedProductBatch,
+    getApprovedProductBatchAsAdmin: products.getApprovedProductBatchAsAdmin,
+    getDisapprovedProductBatchAsAdmin: products.getDisapprovedProductBatchAsAdmin,
+    getPendingProductBatchAsAdmin: products.getPendingProductBatchAsAdmin,
+    getPendingProductBatch: products.getPendingProductBatch,
     getShop: shop.getShop,
     getShopBatch: shop.getShopBatch,
     getSingleShopProductBatch: shop.getSingleShopProductBatch,
@@ -37,8 +42,13 @@ module.exports = {
     addToCart: cartsMutation.addToCart,
     addToLiked: likedsMutation.addToLiked,
     addShop: shopMutation.addShop,
+    deleteShop: shopMutation.deleteShop,
     addProduct: productsMutation.addProduct,
     deleteProduct: productsMutation.deleteProduct,
-    approveProduct: productsMutation.approveProduct
+    approveProduct: productsMutation.approveProduct,
+    DisapproveProduct: productsMutation.DisapproveProduct,
+    makeProductItemSoldOut: productsMutation.makeProductItemSoldOut,
+    makeOnSaleAgain: productsMutation.makeOnSaleAgain,
+    modifyUserAccount: mutationUsers.modifyUserAccount
   }
 }

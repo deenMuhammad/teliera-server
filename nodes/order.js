@@ -12,7 +12,7 @@ const getOrdersBatch = async ({pageSize, next},ctx)=>{
     var hasMore=true;
     var _next;
     var arr = [];
-    var result = Order.find({customer_id: user.user_id},{}, {skip: next-1, date_added: -1});//latest order is fetched first
+    var result = Order.find({customer_id: user._id},{}, {skip: next-1, date_added: -1});//latest order is fetched first
     arr = await result;
     let len  = arr.length;
     if(len>=pageSize){

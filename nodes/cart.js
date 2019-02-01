@@ -12,7 +12,7 @@ const getCartProductBatch = async ({pageSize, next},ctx)=>{
     var hasMore=true;
     var _next;
     var arr = [];
-    var result = Cart.find({customer_id: user.user_id},{}, {skip: next-1, date_added: -1}).populate('product_id');
+    var result = Cart.find({customer_id: user._id},{}, {skip: next-1, date_added: -1}).populate('product_id');
     arr = await result;
     let len  = arr.length;
     if(len>=pageSize){
@@ -41,13 +41,13 @@ const addToCart = async (product_id, ctx)=>{
     if(!user){
         throw new Error(`tokenFailed`)
     }
-    var incart = await inCart(product_id, user.user_id);
+    var incart = await inCart(product_id, user._id);
     if(incart!=null){
         throw new Error("alreadyInCart");
     }
     var result = Cart({
         product_id: product_id,
-        customer_id: user.user_id,
+        customer_id: user._id,
         date_added: Date.now()
     }).save()
     if(!result){

@@ -55,7 +55,7 @@ const getSingleShopProductBatch = async (_id, pageSize, next)=>{
     var hasMore=true;
     var _next;
     var arr = [];
-    var result = Product.find({shop: _id},{}, {skip: next-1, sort: { 'date_added' : -1 }});//FETCHING THE NEWEST PRODUCT OF A SHOP FIRST
+    var result = Product.find({shop: _id, approved: 2},{}, {skip: next-1, sort: { 'date_added' : -1 }});//FETCHING THE NEWEST PRODUCT OF A SHOP FIRST
     arr = await result;
     let len  = arr.length;
     if(len>=pageSize){
@@ -107,10 +107,31 @@ const addShop = async ({name, logo, address, phone, username, password, account}
     }
 }
 
+const deleteShop = async (id, ctx)=>{
+    if(await superadmins.verifySuperAdmin(ctx.headers.accessToken)){//token valid and the superAdmin is valid
+        var result = await Product.deleteMany({shop: id}).exec();//we have to delete all products that belong to the shop to be deleted
+        if(!result){
+            throw new Error("deleteShopProductsFailed");
+        }
+        result = await Shop.findByIdAndDelete({_id: id}).exec();
+        if(!result){
+            throw new Error("deleteShopFailed");
+        }
+        else{
+            return true;
+        }
+    }
+    else{
+        throw new Error('superAdminTokenFailed');
+    }
+}
+
+
 
 module.exports = {
     getShop,
     getShopBatch,
     getSingleShopProductBatch,
-    addShop
+    addShop,
+    deleteShop
 }

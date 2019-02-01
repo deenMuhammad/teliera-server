@@ -10,7 +10,7 @@ const getHotProductBatch = async (pageSize, next)=>{
     var hasMore=true;
     var _next;
     var arr = [];
-    var result = Product.find({hot: true, approved: true},{}, {skip: next-1, sort: { 'date_added' : -1 }}); //fetching the newest hot product first
+    var result = Product.find({hot: true, approved: 2},{}, {skip: next-1, sort: { 'date_added' : -1 }}); //fetching the newest hot product first
     arr = await result;
     let len  = arr.length;
     if(len>=pageSize){
@@ -34,7 +34,7 @@ const getSaleProductBatch = async (pageSize, next)=>{
     var hasMore=true;
     var _next;
     var arr = [];
-    var result = Product.find({approved: true, $where: function() { 
+    var result = Product.find({approved: 2, $where: function() { 
         return ( this.discount > 0 ); } },{}, {skip: next-1, sort: { 'discount' : -1 }}); //fetching the highest discount first
     arr = await result;
     let len  = arr.length;
@@ -55,11 +55,59 @@ const getSaleProductBatch = async (pageSize, next)=>{
         products: result
     }
 }
-const getUnapproveProductBatch = async (pageSize, next)=>{
+const getPendingProductBatch = async (pageSize, next)=>{
     var hasMore=true;
     var _next;
     var arr = [];
-    var result = Product.find({approved: false},{}, {skip: next-1, sort: { 'date_added' : 1 }}); //fetching the oldest hot product first
+    var result = Product.find({approved: 1},{}, {skip: next-1, sort: { 'date_added' : 1 }}); //fetching the oldest hot product first
+    arr = await result;
+    let len  = arr.length;
+    if(len>=pageSize){
+        result = arr.slice(0, pageSize);
+        if(len===pageSize){
+            hasMore=false
+        }
+    }
+    else{
+        result = arr;
+        hasMore=false;
+    }
+    _next = next+pageSize;
+    return {
+        hasMore: hasMore,
+        next: _next,
+        products: result
+    }
+}
+const getApprovedProductBatch = async (pageSize, next)=>{ //this can be fetched by anyone
+    var hasMore=true;
+    var _next;
+    var arr = [];
+    var result = Product.find({approved: 2},{}, {skip: next-1, sort: { 'date_added' : 1 }}); //fetching the oldest hot product first
+    arr = await result;
+    let len  = arr.length;
+    if(len>=pageSize){
+        result = arr.slice(0, pageSize);
+        if(len===pageSize){
+            hasMore=false
+        }
+    }
+    else{
+        result = arr;
+        hasMore=false;
+    }
+    _next = next+pageSize;
+    return {
+        hasMore: hasMore,
+        next: _next,
+        products: result
+    }
+}
+const getDisapprovedProductBatch = async (pageSize, next)=>{
+    var hasMore=true;
+    var _next;
+    var arr = [];
+    var result = Product.find({approved: 3},{}, {skip: next-1, sort: { 'date_added' : 1 }}); //fetching the oldest hot product first
     arr = await result;
     let len  = arr.length;
     if(len>=pageSize){
@@ -88,7 +136,7 @@ const getImageBatchWithShopID = async (pageSize, _id)=>{
     return arr;
 }
 const addProduct = async ({name, Price, Category, Stock, short_desc, long_desc, discount, hot, images}, ctx)=>{
-    //date_added: Float! approved: Boolean!
+    //date_added: Float! approved: Int!
     const res = await admins.verifyAdmin(ctx.headers.accessToken)
     if(res.bool){//token valid and the superAdmin is valid
         var newProduct = await Product({
@@ -103,7 +151,7 @@ const addProduct = async ({name, Price, Category, Stock, short_desc, long_desc, 
             hot: hot,
             images: images,
             date_added: Date.now(),
-            approved: false
+            approved: 1
         }).save()
         if(!newProduct){
             throw new Error("addProductFailed");
@@ -137,7 +185,7 @@ const deleteProduct = async ({id}, ctx)=>{
 const approveProduct = async (id, ctx)=>{
     var tokeValidity = await superadmins.verifySuperAdmin(ctx.headers.accessToken)
     if(tokeValidity){//token valid and the superAdmin is valid
-        const result = await Product.findByIdAndUpdate({_id: id}, {$set: {approved: true}}).exec();
+        const result = await Product.findByIdAndUpdate({_id: id}, {$set: {approved: 2}}).exec();
         if(!result){
             throw new Error('productNotFound');
         }
@@ -147,6 +195,133 @@ const approveProduct = async (id, ctx)=>{
         return null;
     }
 }
+const DisapproveProduct = async (id, ctx)=>{
+    var tokeValidity = await superadmins.verifySuperAdmin(ctx.headers.accessToken)
+    if(tokeValidity){//token valid and the superAdmin is valid
+        const result = await Product.findByIdAndUpdate({_id: id}, {$set: {approved: 3}}).exec();
+        if(!result){
+            throw new Error('productNotFound');
+        }
+        return result;
+    }
+    else{
+        return null;
+    }
+}
+const getApprovedProductBatchAsAdmin = async ({pageSize, next}, ctx)=>{
+    var hasMore=true;
+    var _next;
+    var arr = [];
+    var res = await admins.verifyAdmin(ctx.headers.accessToken);
+    if(!res.bool){
+        throw new Error('AdminTokenFailed');
+    }
+    var result = Product.find({shop: res.id, approved: 2},{}, {skip: next-1, sort: { 'date_added' : -1 }});//FETCHING THE NEWEST PRODUCT OF A SHOP FIRST
+    arr = await result;
+    let len  = arr.length;
+    if(len>=pageSize){
+        result = arr.slice(0, pageSize);
+        if(len===pageSize){
+            hasMore=false
+        }
+    }
+    else{
+        result = arr;
+        hasMore=false;
+    }
+    _next = next+pageSize;
+    return {
+        hasMore: hasMore,
+        next: _next,
+        products: result
+    }
+}
+const getDisapprovedProductBatchAsAdmin = async ({pageSize, next}, ctx)=>{
+    var hasMore=true;
+    var _next;
+    var arr = [];
+    var res = await admins.verifyAdmin(ctx.headers.accessToken);
+    if(!res.bool){
+        throw new Error('AdminTokenFailed');
+    }
+    var result = Product.find({shop: res.id, approved: 3},{}, {skip: next-1, sort: { 'date_added' : -1 }});//FETCHING THE NEWEST PRODUCT OF A SHOP FIRST
+    arr = await result;
+    let len  = arr.length;
+    if(len>=pageSize){
+        result = arr.slice(0, pageSize);
+        if(len===pageSize){
+            hasMore=false
+        }
+    }
+    else{
+        result = arr;
+        hasMore=false;
+    }
+    _next = next+pageSize;
+    return {
+        hasMore: hasMore,
+        next: _next,
+        products: result
+    }
+}
+
+const getPendingProductBatchAsAdmin = async ({pageSize, next}, ctx)=>{
+    var hasMore=true;
+    var _next;
+    var arr = [];
+    var res = await admins.verifyAdmin(ctx.headers.accessToken);
+    if(!res.bool){
+        throw new Error('AdminTokenFailed');
+    }
+    var result = Product.find({shop: res.id, approved: 1},{}, {skip: next-1, sort: { 'date_added' : -1 }});//FETCHING THE NEWEST PRODUCT OF A SHOP FIRST
+    arr = await result;
+    let len  = arr.length;
+    if(len>=pageSize){
+        result = arr.slice(0, pageSize);
+        if(len===pageSize){
+            hasMore=false
+        }
+    }
+    else{
+        result = arr;
+        hasMore=false;
+    }
+    _next = next+pageSize;
+    return {
+        hasMore: hasMore,
+        next: _next,
+        products: result
+    }
+}
+
+
+const makeProductItemSoldOut = async (id, item_id , ctx)=>{
+    var res = await admins.verifyAdmin(ctx.headers.accessToken);
+    if(!res.bool){
+        throw new Error('AdminTokenFailed');
+    }
+    else{
+        const result = await Product.findOneAndUpdate({ "_id": id,"Stock._id": item_id}, {"$set": {"Stock.$.count": 0}}).exec();
+        if(!result){
+            throw new Error('productNotFound');
+        }
+        return result;
+    }
+}
+const makeOnSaleAgain = async (id, item_id, count, ctx)=>{ //This resolver can be used to change the number of the number of products on sale
+    var res = await admins.verifyAdmin(ctx.headers.accessToken);
+    if(!res.bool){
+        throw new Error('AdminTokenFailed');
+    }
+    else{
+        const result = await Product.findOneAndUpdate({ "_id": id,"Stock._id": item_id}, {"$set": {"Stock.$.count": count}}).exec();
+        if(!result){
+            throw new Error('productNotFound');
+        }
+        return result;
+    }
+}
+
 
 module.exports= {
     getProduct,
@@ -156,5 +331,13 @@ module.exports= {
     addProduct,
     deleteProduct,
     approveProduct,
-    getUnapproveProductBatch
+    getPendingProductBatch,
+    getApprovedProductBatch,
+    getDisapprovedProductBatch,
+    DisapproveProduct,
+    getApprovedProductBatchAsAdmin,
+    getDisapprovedProductBatchAsAdmin,
+    getPendingProductBatchAsAdmin,
+    makeProductItemSoldOut,
+    makeOnSaleAgain
 }

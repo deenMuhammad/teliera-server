@@ -7,7 +7,27 @@ type Query {
       pageSize: Int,
       next: Int
   ): PaginatedProduct!
-  getUnapprovedProductBatch(
+  getDisapprovedProductBatch(
+      pageSize: Int,
+      next: Int
+  ): PaginatedProduct!
+  getApprovedProductBatch(
+      pageSize: Int,
+      next: Int
+  ): PaginatedProduct!
+  getApprovedProductBatchAsAdmin(
+      pageSize: Int,
+      next: Int
+  ): PaginatedProduct!
+  getDisapprovedProductBatchAsAdmin(
+      pageSize: Int,
+      next: Int
+  ): PaginatedProduct!
+  getPendingProductBatchAsAdmin(
+      pageSize: Int,
+      next: Int
+  ): PaginatedProduct!
+  getPendingProductBatch(
       pageSize: Int,
       next: Int
   ): PaginatedProduct!
@@ -56,9 +76,16 @@ type Mutation{
     username: String!, 
     name: String!, 
     password: String!,
-    address: String!,
-    phone: String!
+    address: String,
+    phone: String
   ):String,
+  modifyUserAccount(
+    username: String!, 
+    name: String!, 
+    password: String!,
+    address: String,
+    phone: String
+  ):Boolean
   addToCart(
     product_id: String!
   ):Boolean
@@ -73,7 +100,10 @@ type Mutation{
     username: String!,
     password: String!,
     account: String!,
-  ):Boolean
+  ):Boolean,
+  deleteShop(
+    id: String!
+  ):Boolean!
   addProduct(
     name: String!
     Price: Float!
@@ -92,6 +122,18 @@ type Mutation{
   ):Boolean
   approveProduct(
     id: String!
+  ):Boolean
+  DisapproveProduct(
+    id: String!
+  ):Boolean
+  makeProductItemSoldOut(
+    id: String!,
+    item_id: String!,
+  ):Boolean
+  makeOnSaleAgain(
+    id: String!,
+    item_id: String!,
+    count: Int!
   ):Boolean
 }
 
@@ -133,9 +175,10 @@ type Product {
   hot: Boolean
   images:[String],
   date_added: Float,
-  approved: Boolean,
+  approved: Int,
 }
 type Item {
+      _id: String
       color: String
       size: Float
       count: Int
@@ -169,7 +212,7 @@ type Order {
 }
 
 type accessToken {
-  user_id: String,
+  _id: String,
   iat: Int,
   exp: Int
 }

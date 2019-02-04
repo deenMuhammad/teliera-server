@@ -9,6 +9,12 @@ const loginWithPassword = async (obj, {username, password}, ctx)=>{
     return token;
 }
 
+const verifyUserSession = async (obj, {}, ctx)=>{
+    var result = await users.verifyUserSession(ctx)
+    return result;
+}
+
 module.exports = {
-    loginWithPassword
+    loginWithPassword,
+    verifyUserSession
 }

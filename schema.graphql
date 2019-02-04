@@ -49,6 +49,7 @@ type Query {
     username: String!,
     password: String!
   ): String
+  verifyUserSession:Boolean #this is used whenever user runs the app with token. This condition holds true if the user has logged in b before and he/she is using the app again with the same credeantials(token). User does not have to sign in again. App automatically check the token in the background and gets Boolean response. True user continues with the same credential, false: user has to be logged out automatilly in the background.
   getOrdersBatch(
     pageSize: Int,
     next: Int

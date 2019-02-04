@@ -28,6 +28,16 @@ const verifyUser = async (token)=>{    //This is not a resolver function. This i
     return res;
 }
 
+const verifyUserSession = async (ctx)=>{  
+    var res = await verifyUser(ctx.headers.accessToken);
+    if(!res){
+        return false
+    }
+    else{
+        return true
+    }
+}
+
 const SignUpWithPassword = async (username, name, password, address, phone)=>{
     const userName = await User.findOne({username: username}).exec();
     if(userName){
@@ -96,5 +106,6 @@ module.exports = {
     CreateTokenwithPassword,
     verifyUser,
     SignUpWithPassword,
-    modifyUserAccount
+    modifyUserAccount,
+    verifyUserSession
 }

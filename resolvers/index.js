@@ -31,6 +31,7 @@ module.exports = {
     getShopBatch: shop.getShopBatch,
     getSingleShopProductBatch: shop.getSingleShopProductBatch,
     logInWithPassword: users.loginWithPassword,
+    verifyUserSession: users.verifyUserSession,
     getOrdersBatch: orders.getOrdersBatch,
     getCartProductBatch: carts.getCartProductBatch,
     getLikedProductBatch: likeds.getLikedProductBatch,

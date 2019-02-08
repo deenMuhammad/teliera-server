@@ -8,8 +8,8 @@ const Liked = require('./../models/liked');
 const SuperAdmin = require('./../models/superadmin')
 const cryptoPassword = require('./../../services/passwordCrypto')
 
-// var dbURI = "mongodb://deenmuhammad:+1587455Zorro@ds033255.mlab.com:33255/teliera"
-var dbURI = "mongodb://localhost/teliera"
+var dbURI = "mongodb://deenmuhammad:+1587455Zorro@ds033255.mlab.com:33255/teliera"
+// var dbURI = "mongodb://localhost/teliera"
 mongoose.connect(dbURI, { useNewUrlParser: true })
 mongoose.connection.on('connected', ()=>{
     console.log("Connected to Database");

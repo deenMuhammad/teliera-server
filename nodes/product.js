@@ -10,7 +10,7 @@ const getHotProductBatch = async (pageSize, next)=>{
     var hasMore=true;
     var _next;
     var arr = [];
-    var result = Product.find({hot: true, approved: 2},{}, {skip: next-1, sort: { 'date_added' : -1 }}); //fetching the newest hot product first
+    var result = Product.find({hot: true, approved: 2},{}, {skip: next-1}); //fetching the newest hot product first
     arr = await result;
     let len  = arr.length;
     if(len>=pageSize){
@@ -128,7 +128,7 @@ const getDisapprovedProductBatch = async (pageSize, next)=>{
     }
 }
 const getImageBatchWithShopID = async (pageSize, _id)=>{
-    const result = await Product.find({shop: _id}, {}, {limit: 4});
+    const result = await Product.find({shop: _id}, {}, {limit: pageSize});
     var arr = [];
     for(let i = 0; i < result.length; i++){
         arr.push(result[i].images[0]);

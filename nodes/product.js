@@ -151,7 +151,8 @@ const addProduct = async ({name, Price, Category, Stock, short_desc, long_desc, 
             hot: hot,
             images: images,
             date_added: Date.now(),
-            approved: 1
+            approved: 1,
+            loves: 0
         }).save()
         if(!newProduct){
             throw new Error("addProductFailed");
@@ -347,6 +348,22 @@ const getProductBatchByCategory = async (pageSize, next, category) => {
     }
 }
 
+const getMatchingProductList = async (current_product_id)=>{
+    var current_product_category = await getProductCategory(current_product_id);
+    if(current_product_category.Category<100){
+        var products = Product.find({hot: true}, {}, {limit: 8, sort: {'loves': '-1'}}).where('Category').ne(current_product_category.Category).where('Category').gte(0).lt(100).exec(); //this is for men matching
+    }
+    else{
+        var products = Product.find({hot: true}, {}, {limit: 8, sort: {'loves': '-1'}}).where('Category').ne(current_product_category.Category).where('Category').gte(100).lt(200).exec(); //this is for women matching
+    }
+    return products;
+}
+
+const getProductCategory = async (id)=>{ //helper function
+    const result = Product.findById(id).select('Category').exec();
+    return result;
+}
+
 module.exports= {
     getProduct,
     getHotProductBatch,
@@ -364,5 +381,6 @@ module.exports= {
     getPendingProductBatchAsAdmin,
     makeProductItemSoldOut,
     makeOnSaleAgain,
-    getProductBatchByCategory
+    getProductBatchByCategory,
+    getMatchingProductList
 }

@@ -35,12 +35,14 @@ module.exports = {
     getLikedProductBatch: likeds.getLikedProductBatch,
     LogInSuperAdmin: superadmins.loginWithPassword,
     LogInAdmin: admins.loginWithPassword,
-    getProductBatchByCategory: products.getProductBatchByCategory
+    getProductBatchByCategory: products.getProductBatchByCategory,
+    getMatchingProductList: products.getMatchingProductList
   },
   Mutation: {
     signUpWithPassword: mutationUsers.signUpWithPassword,
     addToCart: cartsMutation.addToCart,
     addToLiked: likedsMutation.addToLiked,
+    removeFromLiked: likedsMutation.romoveFromLiked,
     addShop: shopMutation.addShop,
     deleteShop: shopMutation.deleteShop,
     addProduct: productsMutation.addProduct,

@@ -41,6 +41,7 @@ type Product {
   images:[String],
   date_added: Float,
   approved: Int,
+  loves: Int
 }
 type Item {
       _id: String

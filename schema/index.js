@@ -77,6 +77,9 @@ type Query {
       next: Int!,
       category: Int!
   ):PaginatedProduct
+  getMatchingProductList(
+    current_product_id: String!
+    ):[Product]
 }
 
 type Mutation{
@@ -98,6 +101,9 @@ type Mutation{
     product_id: String!
   ):Boolean
   addToLiked(
+    product_id: String!
+  ):Boolean,
+  removeFromLiked(
     product_id: String!
   ):Boolean
   addShop(

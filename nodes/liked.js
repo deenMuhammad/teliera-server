@@ -1,4 +1,5 @@
 const Liked = require('./../db/models/liked');
+const Product = require('./../db/models/product')
 const users = require('./user')
 
 const getLikedProductBatch = async ({pageSize, next},ctx)=>{
@@ -45,6 +46,10 @@ const addToLiked = async (product_id, ctx)=>{
     if(inliked!=null){
         throw new Error("alreadyInLiked");
     }
+    var loved = await Product.findByIdAndUpdate({_id: product_id}, {"$inc": {loves: 1}}).exec();
+    if(!loved){
+        throw new Error('productFailedToBeLoved');
+    }
     var result = Liked({
         product_id: product_id,
         customer_id: user._id,
@@ -57,6 +62,26 @@ const addToLiked = async (product_id, ctx)=>{
         return true;
     }
 }
+const romoveFromLiked = async (product_id, ctx)=>{
+    if(ctx.headers.accessToken==null){
+        throw new Error(`tokenFailed`);
+    }
+    const user = await users.verifyUser(ctx.headers.accessToken);
+    if(!user){
+        throw new Error(`tokenFailed`)
+    }
+    var inliked = await Liked.findOneAndDelete({$and: [{product_id: product_id}, {customer_id: user._id}]})
+    if(!inliked){
+        throw new Error('notFoundInLiked');
+    }
+    var loved = await Product.findByIdAndUpdate({_id: product_id}, {"$inc": {loves: -1}}).exec();
+    if(!loved){
+        throw Error('productFailedToBeLoved');
+    }
+    else{
+        return true;
+    }
+}
 
 const inLiked = async (product_id, user_id)=>{
    return Liked.findOne({$and: [{product_id: product_id}, {customer_id: user_id}]}); //fetching products in cart according to product_id and custormer_id
@@ -64,5 +89,6 @@ const inLiked = async (product_id, user_id)=>{
 
 module.exports = {
     getLikedProductBatch,
-    addToLiked
+    addToLiked,
+    romoveFromLiked
 }

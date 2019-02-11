@@ -8,7 +8,15 @@ const addToLiked = async (obj, {product_id}, ctx)=>{
     }
     return result; 
 }
+const romoveFromLiked = async (obj, {product_id}, ctx)=>{
+    var result = await liked.romoveFromLiked(product_id, ctx);
+    if(!result){
+        throw new Error(`removeFromLikedNull`)
+    }
+    return result
+}
 
 module.exports = {
-    addToLiked
+    addToLiked,
+    romoveFromLiked
 }

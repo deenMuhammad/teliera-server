@@ -73,6 +73,14 @@ const getProductBatchByCategory = async (obj, {pageSize, next, category}) =>{
     return result;
 }
 
+const getMatchingProductList = async (obj, {current_product_id})=>{
+    const result = products.getMatchingProductList(current_product_id);
+    if(!result){
+        return null;
+    }
+    return result;
+}
+
 module.exports = {
     oneProduct,
     getHotProductBatch,
@@ -83,5 +91,6 @@ module.exports = {
     getDisapprovedProductBatchAsAdmin,
     getPendingProductBatchAsAdmin,
     getApprovedProductBatch,
-    getProductBatchByCategory
+    getProductBatchByCategory,
+    getMatchingProductList
 }

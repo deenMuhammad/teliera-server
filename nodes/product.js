@@ -322,6 +322,30 @@ const makeOnSaleAgain = async (id, item_id, count, ctx)=>{ //This resolver can b
     }
 }
 
+const getProductBatchByCategory = async (pageSize, next, category) => {
+    var hasMore=true;
+    var _next;
+    var arr = [];
+    var result = Product.find({Category: category, approved: 2},{}, {skip: next-1, sort: { 'date_added' : -1 }}); //fetching the newest hot product first
+    arr = await result;
+    let len  = arr.length;
+    if(len>=pageSize){
+        result = arr.slice(0, pageSize);
+        if(len===pageSize){
+            hasMore=false
+        }
+    }
+    else{
+        result = arr;
+        hasMore=false;
+    }
+    _next = next+pageSize;
+    return {
+        hasMore: hasMore,
+        next: _next,
+        products: result
+    }
+}
 
 module.exports= {
     getProduct,
@@ -339,5 +363,6 @@ module.exports= {
     getDisapprovedProductBatchAsAdmin,
     getPendingProductBatchAsAdmin,
     makeProductItemSoldOut,
-    makeOnSaleAgain
+    makeOnSaleAgain,
+    getProductBatchByCategory
 }

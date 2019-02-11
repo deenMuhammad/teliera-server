@@ -1,11 +1,11 @@
-const fs = require('fs');
+
 const express = require('express');
 const { ApolloServer, gql } = require('apollo-server-express');
 const cors = require('cors')
 
 require('./db/index')
 
-const typeDefs = gql(fs.readFileSync(__dirname + '/schema.graphql').toString());
+const typeDefs = require('./schema')
 
 const resolvers = require('./resolvers');
 

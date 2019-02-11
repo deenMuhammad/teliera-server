@@ -1,4 +1,3 @@
-const GraphQLJSON = require('graphql-type-json');
 const products = require('./Query/node-product');
 const productsMutation = require('./Mutation/node-products');
 const shop = require('./Query/node-shops');
@@ -15,7 +14,6 @@ const superadmins = require('./Query/node-superadmin');
 const admins = require('./Query/node-admin');
 
 module.exports = {
-  JSON: GraphQLJSON,
   Query: {
     header: async (obj,{}, ctx)=>{ var User = await user.verifyUser(ctx.headers.accessToken); console.log(User._id); return User},
     getProduct: products.oneProduct,
@@ -36,7 +34,8 @@ module.exports = {
     getCartProductBatch: carts.getCartProductBatch,
     getLikedProductBatch: likeds.getLikedProductBatch,
     LogInSuperAdmin: superadmins.loginWithPassword,
-    LogInAdmin: admins.loginWithPassword
+    LogInAdmin: admins.loginWithPassword,
+    getProductBatchByCategory: products.getProductBatchByCategory
   },
   Mutation: {
     signUpWithPassword: mutationUsers.signUpWithPassword,

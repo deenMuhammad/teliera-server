@@ -65,6 +65,14 @@ const getSaleProductBatch = async (obj, {pageSize, next}, ctx)=>{
     return result;
 }
 
+const getProductBatchByCategory = async (obj, {pageSize, next, category}) =>{
+    const result = await products.getProductBatchByCategory(pageSize, next, category);
+    if(!result){
+        return null;
+    }
+    return result;
+}
+
 module.exports = {
     oneProduct,
     getHotProductBatch,
@@ -74,5 +82,6 @@ module.exports = {
     getApprovedProductBatchAsAdmin,
     getDisapprovedProductBatchAsAdmin,
     getPendingProductBatchAsAdmin,
-    getApprovedProductBatch
+    getApprovedProductBatch,
+    getProductBatchByCategory
 }

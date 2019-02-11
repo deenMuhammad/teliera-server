@@ -41,6 +41,7 @@ module.exports = {
   Mutation: {
     signUpWithPassword: mutationUsers.signUpWithPassword,
     addToCart: cartsMutation.addToCart,
+    removeFromCart: cartsMutation.removeFromCart,
     addToLiked: likedsMutation.addToLiked,
     removeFromLiked: likedsMutation.romoveFromLiked,
     addShop: shopMutation.addShop,

@@ -57,6 +57,22 @@ const addToCart = async (product_id, ctx)=>{
         return true;
     }
 }
+const removeFromCart = async (product_id, ctx)=>{
+    if(ctx.headers.accessToken==null){
+        throw new Error(`tokenFailed`);
+    }
+    const user = await users.verifyUser(ctx.headers.accessToken);
+    if(!user){
+        throw new Error(`tokenFailed`)
+    }
+    var incart = await Cart.findOneAndDelete({$and: [{product_id: product_id}, {customer_id: user._id}]}); //fetching products and deleting in cart according to product_id and custormer_id
+    if(!incart){
+        throw new Error("notFoundInCart");
+    }
+    else{
+        return true;
+    }
+}
 
 const inCart = async (product_id, user_id)=>{
    return Cart.findOne({$and: [{product_id: product_id}, {customer_id: user_id}]}); //fetching products in cart according to product_id and custormer_id
@@ -64,5 +80,6 @@ const inCart = async (product_id, user_id)=>{
 
 module.exports = {
     getCartProductBatch,
-    addToCart
+    addToCart,
+    removeFromCart
 }

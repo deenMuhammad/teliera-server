@@ -100,6 +100,9 @@ type Mutation{
   addToCart(
     product_id: String!
   ):Boolean
+  removeFromCart(
+    product_id: String!
+  ):Boolean
   addToLiked(
     product_id: String!
   ):Boolean,

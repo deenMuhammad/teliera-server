@@ -9,6 +9,15 @@ const addToCart = async (obj, {product_id}, ctx)=>{
     return result; 
 }
 
+const removeFromCart = async (obj, {product_id}, ctx)=>{
+    const result = await carts.removeFromCart(product_id, ctx);
+    if(!result){
+        throw new Error(`removeFromCartNull`)
+    }
+    return result;    
+}
+
 module.exports = {
-    addToCart
+    addToCart,
+    removeFromCart
 }
